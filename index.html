@@ -27,9 +27,32 @@
     #tsparticles { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 
     /* Glass cards + hover */
-    .glass { background: var(--card); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.04); border-radius: 14px; box-shadow: 0 6px 22px rgba(2,6,23,0.45); }
-    .card-hover { transition: transform .25s cubic-bezier(.2,.9,.3,1), box-shadow .25s; }
-    .card-hover:hover { transform: translateY(-10px); box-shadow: 0 24px 50px rgba(2,6,23,0.6); }
+    .glass { background: var(--card); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.04); border-radius: 14px; box-shadow: 0 6px 22px rgba(2,6,23,0.45); transition: box-shadow 0.3s, transform 0.3s; }
+    .card-hover { transition: transform .25s cubic-bezier(.2,.9,.3,1), box-shadow .25s, filter 0.25s; }
+    .card-hover:hover { transform: translateY(-10px) scale(1.035) rotateZ(-1deg); box-shadow: 0 24px 50px 0 rgba(124,58,237,0.18), 0 24px 50px rgba(2,6,23,0.6); filter: brightness(1.08) saturate(1.1); }
+
+    /* Section fade-in animation */
+    section, .glass, .tech-card, .vault-card {
+      opacity: 0;
+      transform: translateY(40px) scale(0.98);
+      transition: opacity 0.7s cubic-bezier(.4,1,.3,1), transform 0.7s cubic-bezier(.4,1,.3,1);
+      will-change: opacity, transform;
+    }
+    section.visible, .glass.visible, .tech-card.visible, .vault-card.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Section header hover effect */
+    h2.text-3xl, h2.text-4xl, h2.text-3xl.font-semibold, h2.text-4xl.font-extrabold {
+      transition: text-shadow 0.3s, color 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+    h2.text-3xl:hover, h2.text-4xl:hover, h2.text-3xl.font-semibold:hover, h2.text-4xl.font-extrabold:hover {
+      color: var(--accent);
+      text-shadow: 0 2px 24px rgba(124,58,237,0.25), 0 1px 0 #fff;
+      transform: scale(1.04) skewX(-2deg);
+    }
 
     /* accent styles */
     .accent { color: var(--accent); text-shadow: 0 6px 22px rgba(124,58,237,0.08); }
@@ -52,20 +75,29 @@
     .tech-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: var(--glow); }
 
     /* project modal */
-    .modal-backdrop { position: fixed; inset:0; background: rgba(2,6,23,0.6); backdrop-filter: blur(4px); display: grid; place-items: center; z-index:70; }
-    .modal { max-width: 880px; width: 95%; }
+    .modal-backdrop { position: fixed; inset:0; background: rgba(2,6,23,0.6); backdrop-filter: blur(4px); display: grid; place-items: center; z-index:70; animation: fadeIn 0.5s; }
+    .modal { max-width: 880px; width: 95%; animation: popIn 0.5s; }
 
-    /* Vault */
-    .vault-card { transition: transform .18s ease, box-shadow .18s; border-radius:12px; }
-    .vault-card:hover { transform: translateY(-6px); box-shadow: 0 18px 46px rgba(2,6,23,0.45); }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+  /* Vault */
+  .vault-card { transition: transform .18s ease, box-shadow .18s, filter 0.18s; border-radius:12px; }
+  .vault-card:hover { transform: translateY(-6px) scale(1.025) rotateZ(1deg); box-shadow: 0 18px 46px 0 rgba(124,58,237,0.13), 0 18px 46px rgba(2,6,23,0.45); filter: brightness(1.07) saturate(1.08); }
 
     /* small responsive tweaks */
     @media (max-width:880px){
       .hero-title { font-size: 1.6rem; }
     }
 
-    /* accessible focus state */
-    a:focus, button:focus, input:focus, textarea:focus { outline: 3px solid rgba(124,58,237,0.18); outline-offset: 2px; }
+  /* accessible focus state */
+  a:focus, button:focus, input:focus, textarea:focus { outline: 3px solid rgba(124,58,237,0.18); outline-offset: 2px; }
   </style>
 </head>
 <body>
@@ -77,11 +109,10 @@
   <header class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="#hero" class="text-lg font-semibold">Abhijit Rai</a>
     <nav id="topnav" class="hidden md:flex gap-3" role="navigation" aria-label="Main navigation">
+      <a class="nav-link" href="#about">About</a>
       <a class="nav-link" href="#projects">Projects</a>
       <a class="nav-link" href="#tech-stack">Tech</a>
-      <a class="nav-link" href="#about">About</a>
       <a class="nav-link" href="#education">Education</a>
-      <a class="nav-link" href="#experience">Experience</a>
       <a class="nav-link" href="#certs">Certs</a>
       <a class="nav-link" href="#contact">Contact</a>
     </nav>
@@ -95,9 +126,9 @@
   <!-- mobile menu -->
   <div id="mobileMenu" class="md:hidden max-w-6xl mx-auto px-6 hidden">
     <nav class="flex flex-col gap-2 py-2">
+      <a class="nav-link" href="#about">About</a>
       <a class="nav-link" href="#projects">Projects</a>
       <a class="nav-link" href="#tech-stack">Tech</a>
-      <a class="nav-link" href="#about">About</a>
       <a class="nav-link" href="#education">Education</a>
       <a class="nav-link" href="#experience">Experience</a>
       <a class="nav-link" href="#certs">Certs</a>
@@ -110,8 +141,16 @@
     <!-- HERO -->
     <section id="hero" class="pt-12 pb-8 grid md:grid-cols-3 gap-8 items-center relative" aria-label="Hero">
       <div class="md:col-span-2 relative z-10">
-        <h1 class="hero-title text-4xl md:text-5xl">Hi, I'm <span class="accent">Abhijit</span> — (Abhi).</h1>
-        <p class="mt-4 text-lg text-slate-300 max-w-3xl">Electronics & Telecommunication engineer building at the hardware–software boundary: STM32 firmware, FPGA & SoC design, SDR pipelines, and AI-powered security tools.</p>
+        <h1 class="hero-title text-4xl md:text-5xl">Hi, I'm <span class="accent">Abhijit</span></h1>
+    <p class="mt-4 text-lg text-slate-300 max-w-3xl">
+      <h2 class="text-4xl font-semibold">
+  <span>In India, friends know me as “Abhi” (short and simple, like the code I try to write).</span>
+      </h2>
+
+    </p>
+    <p class="mt-4 text-lg text-slate-300 max-w-3xl">I build things where circuits meet code: from low-level SoC blocks to production web stacks. I like projects that prove an idea on the bench and scale in the field.
+    </p>
+    
 
         <div class="mt-6 flex flex-wrap gap-3 items-center">
           <a href="./assests/resume.pdf" class="btn-accent" aria-label="Download resume">
@@ -134,74 +173,103 @@
       </div>
 
       <div class="flex justify-center md:justify-end mt-6 md:mt-0 relative z-10">
-        <div class="w-44 h-44 md:w-52 md:h-52 rounded-2xl overflow-hidden ring-1 ring-white/5 card-hover glass">
-          <!-- placeholder profile image -->
-          <img id="profileImg" src=".//assests/me.jpg" alt="Profile image" class="w-full h-full object-cover" />
+        <div class="w-56 h-56 md:w-64 md:h-64 rounded-2xl overflow-hidden ring-1 ring-white/5 card-hover glass">
+  <!-- placeholder profile image -->
+        <img id="profileImg" src="./assests/me.jpg" alt="Profile image" class="w-full h-full object-cover" />
         </div>
       </div>
     </section>
     
-    <div class="mt-6 glass p-4">
-        <h4 class="font-semibold mb-3">Random Dev Quote</h4>
-        <img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical" alt="random quote" />
-      </div>
-    </section>
-        <!-- ================== ABOUT ME SECTION ================== -->
-    <section id="about" class="relative py-20 bg-black text-gray-200 overflow-hidden">
-      <div class="max-w-6xl mx-auto px-6 lg:px-12 relative z-10">
-        <h2 class="text-4xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-pulse">
+    <div class="mt-6 glass p-4 transition-transform duration-300 hover:scale-80 hover:ring-2 hover:ring-accent">
+      <h4 class="font-semibold mb-3">Random Dev Quote</h4>
+      <img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical" alt="random quote" />
+    </div>
+
+   <!-- ================== ABOUT ME SECTION ================== -->
+    <section id="about" class="relative py-24 bg-black text-gray-200 overflow-hidden rounded-2xl">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+
+        <!-- Section Heading -->
+        <h2 class="text-4xl font-extrabold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-pulse">
           About Me
         </h2>
-        <div class="grid md:grid-cols-2 gap-10 items-center">
-          
-          <!-- Left side: text -->
-          <div class="space-y-6">
+
+        <div class="grid md:grid-cols-2 gap-12 items-start">
+
+          <!-- Left: Intro & Highlights -->
+          <div class="space-y-6 bg-gray-900/20 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-cyan-500/20 animate-fade-in">
             <p class="text-lg leading-relaxed text-gray-300">
-              I’m <span class="font-bold text-cyan-400">Abhijit Rai</span>, an <span class="text-purple-400">Embedded Systems & FPGA Engineer</span> with a strong focus on 
-              <span class="text-blue-400">hardware-software co-design, SDR, IoT communication, and system security</span>. 
-              My work bridges the gap between digital logic design and intelligent software, 
-              delivering high-performance and energy-efficient systems.
+              I’m <span class="font-bold text-cyan-400">Abhijit Rai</span>, a third-year <span class="text-purple-400">Electronics & Telecommunication Engineering student</span> at Army Institute of Technology, Pune. 
+              My work focuses on architecting systems at the intersection of <span class="text-blue-400">embedded computing, FPGA/SoC design, AI-driven security, and full-stack engineering</span> delivering solutions that transition seamlessly from lab-scale prototypes to production-grade deployments.
+            </p>
+
+            <p class="text-lg leading-relaxed text-gray-300 mt-4">
+              With a foundation built on reverse-engineering hardware and optimizing embedded workflows, I now design <span class="text-cyan-400">STM32-based control stacks, secure boot architectures, and FPGA accelerators</span>. I actively prototype <span class="text-purple-400">RISC-V cores and SDR pipelines</span>, and engineer <span class="text-blue-400">ML-integrated embedded platforms and scalable backend services</span> that transform technical concepts into high-impact, deployable systems.
+            </p>
+
+
+            <p class="text-lg leading-relaxed text-gray-300">
+              Highlights: <span class="font-bold text-cyan-400">Smart India Hackathon finalist (GLOFzilla)</span>, leading embedded teams at CEAR Robotics, organizing large-scale hackathons, and contributing to open-source initiatives. I focus on <span class="text-purple-400">hardware prototyping, embedded firmware, full-stack applications, and AI security tooling</span>.
             </p>
 
             <p class="text-lg leading-relaxed text-gray-300">
-              I thrive on building <span class="text-cyan-400">low-level systems</span> that push hardware limits, 
-              crafting <span class="text-purple-400">secure boot flows, FPGA accelerators, and SoC prototypes</span>. 
-              At the same time, I’ve explored <span class="text-blue-400">AI/ML for embedded platforms, blockchain security, and full-stack apps</span>, 
-              making me a versatile engineer who can design across layers.
+              Selected work: <br>
+              <span class="font-bold text-cyan-400">GLOFzilla (SIH Finalist):</span> IoT & ML-based flood early-warning system. <br>
+              <span class="font-bold text-purple-400">FPGA-Accelerated SDR:</span> Lightweight IoT PHY with FPGA offload. <br>
+              <span class="font-bold text-blue-400">ML-Based Web App Firewall:</span> Runtime API protection using NLP & anomaly detection. <br>
+              <span class="font-bold text-cyan-400">Smart Glasses (Edge AI):</span> ESP-CAM object detection with ultrasonic feedback.
             </p>
 
-            <p class="text-lg leading-relaxed text-gray-300">
-              Beyond projects, I’ve <span class="font-bold text-cyan-400">mentored students</span>, organized large-scale hackathons, 
-              and contributed to open-source. My mission? To engineer systems that are 
-              <span class="text-purple-400">efficient, scalable, and secure</span> while solving real-world challenges.
-            </p>
-
-            <div class="flex gap-4 mt-6">
-              <a href="#skills" class="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg shadow-lg shadow-cyan-500/30 hover:shadow-cyan-400/60 text-white font-semibold transition transform hover:scale-105">
+            <div class="flex gap-4 mt-6 flex-wrap">
+              <a href="#skills" class="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl shadow-lg shadow-cyan-500/30 hover:shadow-cyan-400/50 text-white font-semibold transition transform hover:scale-105">
                 Explore My Skills
               </a>
-              <a href="#projects" class="px-6 py-3 border border-cyan-400 rounded-lg text-cyan-400 hover:bg-cyan-400/10 hover:scale-105 transition font-semibold">
+              <a href="#projects" class="px-6 py-3 border border-cyan-400 rounded-2xl text-cyan-400 hover:bg-cyan-400/10 hover:scale-105 transition font-semibold">
                 View My Work
               </a>
             </div>
           </div>
 
-          <!-- Right side: futuristic card -->
-          <div class="relative">
-            <div class="bg-gradient-to-br from-cyan-900/20 via-blue-800/10 to-purple-900/20 border border-cyan-500/30 rounded-2xl p-8 backdrop-blur-lg shadow-xl hover:shadow-cyan-500/50 transition">
-              <h3 class="text-xl font-bold text-cyan-400 mb-4">What I Do</h3>
-              <ul class="space-y-3 text-gray-300">
-                <li>FPGA Design (Verilog, VHDL, SoCs with NIOS II)</li>
-                <li>SDR & IoT Communication (low-power PHYs)</li>
-                <li>Embedded Security (Secure Boot, Crypto)</li>
-                <li>Full-Stack Development (Next.js, APIs, AI)</li>
-                <li>AI for Systems (ML-accelerated pipelines)</li>
-              </ul>
+          <!-- Right: Floating "What I Do" Card -->
+          <div class="flex justify-center mt-6 md:mt-0 relative">
+            <div class="group relative w-full max-w-md">
+              <div class="bg-gradient-to-br from-cyan-900/20 via-blue-800/10 to-purple-900/20 border border-cyan-500/30 rounded-3xl p-8 backdrop-blur-lg shadow-2xl transition-transform transform hover:-translate-y-4 hover:scale-105 duration-500 ease-in-out animate-float">
+                <h3 class="text-2xl font-bold text-cyan-400 mb-6 text-center">What I Do?</h3>
+                <ul class="space-y-4 text-gray-300 text-lg">
+                  <li><span class="font-semibold text-cyan-400">FPGA Design:</span> Verilog, VHDL, SoCs with NIOS II</li>
+                  <li><span class="font-semibold text-purple-400">SDR & IoT:</span> Low-power PHYs, IoT communication</li>
+                  <li><span class="font-semibold text-blue-400">Embedded Security:</span> Secure Boot, Cryptography, Firmware</li>
+                  <li><span class="font-semibold text-cyan-400">Full-Stack Development:</span> Next.js, APIs, ML-enabled apps</li>
+                  <li><span class="font-semibold text-purple-400">AI for Systems:</span> ML-accelerated pipelines & anomaly detection</li>
+                </ul>
+              </div>
+              <!-- Subtle floating shadow for 3D effect -->
+              <div class="absolute inset-0 rounded-3xl shadow-xl shadow-cyan-500/20 blur-2xl pointer-events-none"></div>
             </div>
           </div>
 
         </div>
       </div>
+
+      <!-- Floating animation keyframes -->
+      <style>
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+          animation: float 4s ease-in-out infinite;
+        }
+        .animate-fade-in {
+          animation: fadeIn 1.2s ease-in-out forwards;
+          opacity: 0;
+        }
+        @keyframes fadeIn {
+          to { opacity: 1; }
+        }
+      </style>
+    </section>
+
 
       <!-- subtle HUD particle overlay -->
       <div id="aboutParticles" class="absolute inset-0 z-0"></div>
@@ -494,7 +562,7 @@
     <!-- All Projects / The Vault -->
       <section id="vault" class="mt-12">
         <div class="flex items-center justify-between">
-          <h2 class="text-3xl font-semibold">The Vault — All Repos</h2>
+          <h2 class="text-3xl font-semibold">Project Archive</h2>
           <div class="text-slate-400">Filter & explore everything</div>
         </div>
 
@@ -577,6 +645,177 @@
         </div>
       </section>
 
+    <!-- Lucknow Map Section (Animated, Leaflet) -->
+  <section id="lucknow-map" class="mt-20 mb-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-2 animate-fadeInDown">Best parts of Lucknow</h2>
+      <p class="text-center text-slate-400 mb-12 animate-fadeInUp">My curated spots for culture, nature, food, and urban vibes in the city I call home.</p>
+
+      <div class="grid md:grid-cols-2 gap-10">
+        <!-- Spot List -->
+        <div class="space-y-8 animate-fadeInLeft">
+          <div>
+            <h3 class="text-lg font-semibold text-slate-300 mb-2">Heritage & Culture</h3>
+            <ul class="space-y-2">
+              <li>Bara Imambara (बड़ा इमामबाड़ा)</li>
+              <li>Chota Imambara (छोटा इमामबाड़ा)</li>
+              <li>Rumi Darwaza (रूमी दरवाज़ा)</li>
+              <li>Husainabad Clock Tower</li>
+              <li>British Residency</li>
+              <li>Dilkusha Kothi</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-slate-300 mb-2">Nature & Leisure</h3>
+            <ul class="space-y-2">
+              <li>Gomti Riverfront</li>
+              <li>Janeshwar Mishra Park</li>
+              <li>Lucknow Zoo</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-slate-300 mb-2">Food & Markets</h3>
+            <ul class="space-y-2">
+              <li>Tunday Kababi (Chowk)</li>
+              <li>Chowk Market</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-slate-300 mb-2">Urban Hangouts</h3>
+            <ul class="space-y-2">
+              <li>Hazratganj Market</li>
+              <li>Aminabad Market</li>
+              <li>Ambedkar Memorial Park</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div class="relative animate-fadeInRight">
+          <div id="lucknowMap" class="w-full h-96 rounded-xl shadow-lg border border-slate-700 overflow-hidden transform transition-transform duration-700 hover:scale-105"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (!document.getElementById('lucknowMap')) return;
+    var map = L.map('lucknowMap', { scrollWheelZoom: false }).setView([26.85, 80.95], 12);
+    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; OpenMapTiles, &copy; OpenStreetMap'
+    }).addTo(map);
+    function icon(url) {
+      return new L.Icon({
+        iconUrl: url,
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [28, 41], iconAnchor: [14, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
+      });
+    }
+    var icons = {
+      heritage: icon('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png'),
+      nature: icon('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png'),
+      urban: icon('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png'),
+      food: icon('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png')
+    };
+    var spots = [
+      { name: 'Bara Imambara (बड़ा इमामबाड़ा)', coords: [26.8695, 80.9129], type: 'heritage', desc: '18th-century grand monument with Bhool Bhulaiya maze.' },
+      { name: 'Chota Imambara (छोटा इमामबाड़ा)', coords: [26.8706, 80.9195], type: 'heritage', desc: 'Palace of Lights, Mughal-inspired structure.' },
+      { name: 'Rumi Darwaza (रूमी दरवाज़ा)', coords: [26.869, 80.9132], type: 'heritage', desc: 'Iconic 60-ft gateway built in Mughal style.' },
+      { name: 'Husainabad Clock Tower', coords: [26.8692, 80.919], type: 'heritage', desc: 'Victorian-era clock tower, one of India’s tallest.' },
+      { name: 'British Residency', coords: [26.8575, 80.912], type: 'heritage', desc: 'Historic ruins from the 1857 Revolt.' },
+      { name: 'Dilkusha Kothi', coords: [26.8463, 80.9811], type: 'heritage', desc: 'Colonial-era ruins amidst greenery.' },
+      { name: 'Gomti Riverfront', coords: [26.8572, 80.942], type: 'nature', desc: 'Scenic hangout with fountains and gardens.' },
+      { name: 'Janeshwar Mishra Park', coords: [26.8501, 80.9927], type: 'nature', desc: 'Asia’s largest garden park for walks & cycling.' },
+      { name: 'Lucknow Zoo', coords: [26.8466, 80.9461], type: 'nature', desc: 'Family-friendly zoo with animals & museum.' },
+      { name: 'Tunday Kababi (Chowk)', coords: [26.8702, 80.9139], type: 'food', desc: 'Famous kebabs & street food hub.' },
+      { name: 'Chowk Market', coords: [26.8721, 80.9155], type: 'food', desc: 'Street food & Chikan embroidery shopping.' },
+      { name: 'Hazratganj Market', coords: [26.8524, 80.9462], type: 'urban', desc: 'Heritage shopping for clothes, books, food.' },
+      { name: 'Aminabad Market', coords: [26.8535, 80.9409], type: 'urban', desc: 'Old bazaar famous for clothes, jewelry, and food.' },
+      { name: 'Ambedkar Memorial Park', coords: [26.8467, 80.9732], type: 'urban', desc: 'Massive sandstone park with statues & architecture.' }
+    ];
+    spots.forEach(function(s) {
+      L.marker(s.coords, { icon: icons[s.type] || icons.heritage })
+        .addTo(map)
+        .bindPopup('<b>' + s.name + '</b><br>' + s.desc);
+    });
+  });
+  </script>
+  <!-- Tailwind Animations -->
+  <style>
+    .animate-fadeInDown { animation: fadeInDown 1s ease forwards; opacity: 0; }
+    .animate-fadeInUp { animation: fadeInUp 1s ease forwards; opacity: 0; }
+    .animate-fadeInLeft { animation: fadeInLeft 1s ease forwards; opacity: 0; }
+    .animate-fadeInRight { animation: fadeInRight 1s ease forwards; opacity: 0; }
+    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes fadeInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes fadeInLeft { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes fadeInRight { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  </style>
+  <script>
+    // Section fade-in on scroll
+    function revealSections() {
+      const revealEls = document.querySelectorAll('section, .glass, .tech-card, .vault-card');
+      const windowHeight = window.innerHeight;
+      revealEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < windowHeight - 60) {
+          el.classList.add('visible');
+        } else {
+          el.classList.remove('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', revealSections);
+    window.addEventListener('load', revealSections);
+    setTimeout(revealSections, 200); // fallback for late loads
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!document.getElementById('lucknowMap')) return;
+      var map = L.map('lucknowMap', { scrollWheelZoom: false }).setView([26.85, 80.95], 12);
+      L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+      // Custom marker icons
+      function icon(url) {
+        return new L.Icon({
+          iconUrl: url,
+          shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+          iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
+        });
+      }
+      var icons = {
+        heritage: icon('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png'),
+        nature: icon('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png'),
+        urban: icon('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png'),
+        food: icon('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png')
+      };
+      var spots = [
+        { name: 'Bara Imambara (बड़ा इमामबाड़ा)', coords: [26.8695, 80.9129], type: 'heritage', desc: '18th-century grand monument with Bhool Bhulaiya maze.' },
+        { name: 'Chota Imambara (छोटा इमामबाड़ा)', coords: [26.8706, 80.9195], type: 'heritage', desc: 'Also called Palace of Lights, a beautiful Mughal structure.' },
+        { name: 'Rumi Darwaza (रूमी दरवाज़ा)', coords: [26.869, 80.9132], type: 'heritage', desc: 'Iconic 60-ft gateway built in Mughal style.' },
+        { name: 'Husainabad Clock Tower', coords: [26.8692, 80.919], type: 'heritage', desc: 'Victorian-era clock tower, one of India’s tallest.' },
+        { name: 'British Residency', coords: [26.8575, 80.912], type: 'heritage', desc: 'Historic ruins from the Revolt of 1857.' },
+        { name: 'Dilkusha Kothi', coords: [26.8463, 80.9811], type: 'heritage', desc: 'Colonial-era ruins amidst greenery.' },
+        { name: 'Gomti Riverfront', coords: [26.8572, 80.942], type: 'nature', desc: 'Scenic evening hangout with fountains, lights, and gardens.' },
+        { name: 'Janeshwar Mishra Park', coords: [26.8501, 80.9927], type: 'nature', desc: 'Asia’s largest garden park, ideal for walks and cycling.' },
+        { name: 'Lucknow Zoo', coords: [26.8466, 80.9461], type: 'nature', desc: 'Family-friendly zoo with museum & animals.' },
+        { name: 'Tunday Kababi (Chowk)', coords: [26.8702, 80.9139], type: 'food', desc: 'World-famous kebabs and street food hub.' },
+        { name: 'Chowk Market', coords: [26.8721, 80.9155], type: 'food', desc: 'Street food + Chikan embroidery shopping paradise.' },
+        { name: 'Hazratganj Market', coords: [26.8524, 80.9462], type: 'urban', desc: 'Heritage shopping district for clothes, books, food.' },
+        { name: 'Aminabad Market', coords: [26.8535, 80.9409], type: 'urban', desc: 'Old bazaar famous for clothes, jewelry, and food.' },
+        { name: 'Ambedkar Memorial Park', coords: [26.8467, 80.9732], type: 'urban', desc: 'Massive sandstone park with statues and modern architecture.' }
+      ];
+      spots.forEach(function(s) {
+        L.marker(s.coords, { icon: icons[s.type] || icons.heritage })
+          .addTo(map)
+          .bindPopup('<b>' + s.name + '</b><br>' + s.desc);
+      });
+    });
+  </script>
+
+
     <!-- Contact -->
     <section id="contact" class="mt-12">
       <h2 class="text-3xl font-semibold">Get in Touch</h2>
@@ -622,21 +861,6 @@
   <footer class="max-w-6xl mx-auto px-6 py-8 text-slate-500 text-sm text-center">
     Built with care • Hosted on GitHub Pages • <a href="https://github.com/aerostorm19" target="_blank" rel="noopener">aerostorm19</a>
   </footer>
-
-  <!-- Project details modal (hidden) -->
-  <div id="modalBackdrop" class="modal-backdrop hidden" aria-hidden="true">
-    <div class="modal glass p-6">
-      <div class="flex justify-between items-start">
-        <div>
-          <h3 id="modalTitle" class="text-xl font-semibold"></h3>
-          <div id="modalTags" class="text-xs text-slate-400 mt-1"></div>
-        </div>
-        <button id="modalClose" class="text-slate-200">✕</button>
-      </div>
-      <div id="modalBody" class="mt-4 text-sm text-slate-300"></div>
-      <div id="modalLinks" class="mt-4 flex gap-3"></div>
-    </div>
-  </div>
 
   <script>
     /***********
@@ -826,6 +1050,19 @@
       });
       card.addEventListener('mouseleave', ()=> card.style.transform = '');
     });
+    // Section header hover microinteraction (pulse)
+    document.querySelectorAll('h2.text-3xl, h2.text-4xl, h2.text-3xl.font-semibold, h2.text-4xl.font-extrabold').forEach(h2 => {
+      h2.addEventListener('mouseenter', () => {
+        h2.style.animation = 'pulseH2 0.5s';
+      });
+      h2.addEventListener('animationend', () => {
+        h2.style.animation = '';
+      });
+    });
+    // Pulse keyframes
+    const style = document.createElement('style');
+    style.innerHTML = `@keyframes pulseH2 { 0%{transform:scale(1);} 50%{transform:scale(1.07);} 100%{transform:scale(1);} }`;
+    document.head.appendChild(style);
 
     /***********
      * Contact form (placeholder) — integrate EmailJS or Formspree here
