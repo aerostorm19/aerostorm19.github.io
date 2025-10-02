@@ -152,6 +152,33 @@
       </div>
     </section>
 
+    <!-- Random Dev Quote Section -->
+<div class="quote-container my-6 p-4 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-400 text-white text-center shadow-lg">
+  <h3 class="text-lg font-semibold mb-2">💻 Random Dev Quote</h3>
+  <img id="dev-quote" src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical" 
+       alt="Random Developer Quote" class="mx-auto rounded-md shadow-md" />
+  <button id="refresh-quote" class="mt-3 px-4 py-2 bg-white text-purple-700 font-bold rounded hover:bg-purple-100 transition">
+    Refresh
+  </button>
+</div>
+
+<script>
+  const quoteImg = document.getElementById('dev-quote');
+  const refreshBtn = document.getElementById('refresh-quote');
+
+  refreshBtn.addEventListener('click', () => {
+    // Add a timestamp to bypass cache and get a new quote
+    quoteImg.src = `https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical&t=${new Date().getTime()}`;
+  });
+</script>
+
+
+    <!-- Snake animation -->
+        <div class="mt-4 flex justify-center">
+          <img src="https://profile-readme-generator.com/assets/snake.svg" alt="Snake animation">
+        </div>
+      </div>
+    
     <!-- Projects -->
     <section id="projects" class="mt-16">
       <div class="flex items-center justify-between">
@@ -204,113 +231,99 @@
     </section>
 
     <!-- Skills -->
-    <section id="skills" class="mt-20">
-      <div class="flex items-center justify-between">
-        <h2 class="text-2xl font-semibold">Skills & Tech — Radar</h2>
-        <div class="text-sm text-slate-400">Core strengths & tooling</div>
-      </div>
+    <!-- Tech Stack Section -->
+<section id="tech-stack" class="mt-20">
+  <div class="flex items-center justify-between">
+    <h2 class="text-2xl font-semibold">💻 Tech Stack</h2>
+    <div class="text-sm text-slate-400">Tools, languages & platforms I use</div>
+  </div>
 
-      <div class="mt-6 grid lg:grid-cols-3 gap-6">
-        <!-- Left: Radial skill meters -->
-        <div class="glass p-6 grid grid-cols-3 gap-4">
-          <!-- A simple SVG radial progress template -->
-          <div class="radial flex flex-col items-center justify-center">
-            <svg width="64" height="64" viewBox="0 0 36 36" class="mb-2">
-              <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831 15.9155 15.9155 0 1 0 0-31.831" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
-              <path class="stroke-rad" stroke-linecap="round" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="url(#g1)" stroke-width="2" stroke-dasharray="80 100" />
-              <defs><linearGradient id="g1"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#00e5ff"/></linearGradient></defs>
-            </svg>
-            <div class="text-xs text-slate-200">Embedded</div>
-          </div>
+  <div class="mt-8 grid lg:grid-cols-2 gap-12">
+    <!-- Left: Core Skills -->
+    <div class="glass p-6 rounded-xl shadow-lg space-y-6">
+      <h3 class="text-lg font-semibold mb-2">🧱 Core Skills</h3>
 
-          <div class="radial flex flex-col items-center justify-center">
-            <svg width="64" height="64" viewBox="0 0 36 36" class="mb-2">
-              <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
-              <path stroke-linecap="round" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="url(#g2)" stroke-width="2" stroke-dasharray="65 100" />
-              <defs><linearGradient id="g2"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#00e5ff"/></linearGradient></defs>
-            </svg>
-            <div class="text-xs text-slate-200">FPGA</div>
-          </div>
-
-          <div class="radial flex flex-col items-center justify-center">
-            <svg width="64" height="64" viewBox="0 0 36 36" class="mb-2">
-              <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
-              <path stroke-linecap="round" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="url(#g3)" stroke-width="2" stroke-dasharray="55 100" />
-              <defs><linearGradient id="g3"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#00e5ff"/></linearGradient></defs>
-            </svg>
-            <div class="text-xs text-slate-200">ML & Data</div>
-          </div>
-
-          <div class="radial flex flex-col items-center justify-center">
-            <svg width="64" height="64" viewBox="0 0 36 36" class="mb-2">
-              <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
-              <path stroke-linecap="round" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="url(#g4)" stroke-width="2" stroke-dasharray="75 100" />
-              <defs><linearGradient id="g4"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#00e5ff"/></linearGradient></defs>
-            </svg>
-            <div class="text-xs text-slate-200">Embedded Security</div>
-          </div>
-
-          <div class="radial flex flex-col items-center justify-center">
-            <svg width="64" height="64" viewBox="0 0 36 36" class="mb-2">
-              <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
-              <path stroke-linecap="round" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="url(#g5)" stroke-width="2" stroke-dasharray="45 100" />
-              <defs><linearGradient id="g5"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#00e5ff"/></linearGradient></defs>
-            </svg>
-            <div class="text-xs text-slate-200">SoC</div>
-          </div>
-
-          <div class="radial flex flex-col items-center justify-center">
-            <svg width="64" height="64" viewBox="0 0 36 36" class="mb-2">
-              <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
-              <path stroke-linecap="round" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="url(#g6)" stroke-width="2" stroke-dasharray="85 100" />
-              <defs><linearGradient id="g6"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#00e5ff"/></linearGradient></defs>
-            </svg>
-            <div class="text-xs text-slate-200">Firmware</div>
-          </div>
-        </div>
-
-        <!-- Middle: Tech chips -->
-        <div class="glass p-6">
-          <h4 class="font-semibold mb-3">Tech stack</h4>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <button class="tech-chip">C / C++</button>
-            <button class="tech-chip">Python</button>
-            <button class="tech-chip">Rust</button>
-            <button class="tech-chip">Verilog</button>
-            <button class="tech-chip">SystemVerilog</button>
-            <button class="tech-chip">STM32</button>
-            <button class="tech-chip">FreeRTOS</button>
-            <button class="tech-chip">TensorFlow</button>
-            <button class="tech-chip">Docker</button>
-          </div>
-
-          <p class="mt-4 text-sm text-slate-400">Tip: hover chips to feel the micro-interaction. Logos can be added later per chip.</p>
-        </div>
-
-        <!-- Right: Skill bars / quick stat -->
-        <div class="glass p-6">
-          <h4 class="font-semibold mb-3">Quick Stats</h4>
-          <div class="space-y-4">
-            <div>
-              <div class="flex justify-between text-sm mb-1"><span>Embedded Systems</span><span class="text-slate-400">90%</span></div>
-              <div class="w-full bg-white/3 rounded-full h-2"><div style="width:90%" class="h-2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#00e5ff]"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-sm mb-1"><span>FPGA & HDL</span><span class="text-slate-400">78%</span></div>
-              <div class="w-full bg-white/3 rounded-full h-2"><div style="width:78%" class="h-2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#00e5ff]"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-sm mb-1"><span>ML & Data</span><span class="text-slate-400">60%</span></div>
-              <div class="w-full bg-white/3 rounded-full h-2"><div style="width:60%" class="h-2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#00e5ff]"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-sm mb-1"><span>Embedded Security</span><span class="text-slate-400">72%</span></div>
-              <div class="w-full bg-white/3 rounded-full h-2"><div style="width:72%" class="h-2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#00e5ff]"></div></div>
-            </div>
-          </div>
+      <!-- Hardware & Embedded Systems -->
+      <div>
+        <h4 class="font-semibold text-purple-300 mb-2">🔧 Hardware & Embedded Systems</h4>
+        <div class="flex flex-wrap gap-2">
+          <img src="https://img.shields.io/badge/verilog-%23000000.svg?style=for-the-badge&logo=verilog&logoColor=white" alt="Verilog">
+          <img src="https://img.shields.io/badge/systemverilog-%23000000.svg?style=for-the-badge&logo=verilog&logoColor=white" alt="SystemVerilog">
+          <img src="https://img.shields.io/badge/Embedded%20C-%23000000.svg?style=for-the-badge&logo=c&logoColor=white" alt="Embedded C">
+          <img src="https://img.shields.io/badge/STM32-%23000000.svg?style=for-the-badge&logo=arm&logoColor=white" alt="STM32">
+          <img src="https://img.shields.io/badge/FreeRTOS-%23000000.svg?style=for-the-badge&logo=freertos&logoColor=white" alt="FreeRTOS">
+          <img src="https://img.shields.io/badge/ARM%20Assembly-%23000000.svg?style=for-the-badge&logo=arm&logoColor=white" alt="ARM Assembly">
+          <img src="https://img.shields.io/badge/Quartus-%23000000.svg?style=for-the-badge&logo=intel&logoColor=white" alt="Quartus">
+          <img src="https://img.shields.io/badge/Vivado-%23000000.svg?style=for-the-badge&logo=xilinx&logoColor=white" alt="Vivado">
         </div>
       </div>
-    </section>
+
+      <!-- Communication Protocols -->
+      <div>
+        <h4 class="font-semibold text-purple-300 mb-2">📡 Communication Protocols</h4>
+        <div class="flex flex-wrap gap-2">
+          <img src="https://img.shields.io/badge/UART-%23000000.svg?style=for-the-badge&logo=serial&logoColor=white" alt="UART">
+          <img src="https://img.shields.io/badge/SPI-%23000000.svg?style=for-the-badge&logo=serial&logoColor=white" alt="SPI">
+          <img src="https://img.shields.io/badge/I2C-%23000000.svg?style=for-the-badge&logo=serial&logoColor=white" alt="I2C">
+          <img src="https://img.shields.io/badge/CAN%202.0B-%23000000.svg?style=for-the-badge&logo=vector&logoColor=white" alt="CAN 2.0B">
+          <img src="https://img.shields.io/badge/PWM-%23000000.svg?style=for-the-badge&logo=serial&logoColor=white" alt="PWM">
+          <img src="https://img.shields.io/badge/ADC-%23000000.svg?style=for-the-badge&logo=serial&logoColor=white" alt="ADC">
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Languages, Tools, Cloud, Frontend -->
+    <div class="glass p-6 rounded-xl shadow-lg space-y-6">
+      <!-- Programming Languages -->
+      <div>
+        <h4 class="font-semibold text-purple-300 mb-2">💻 Programming Languages</h4>
+        <div class="flex flex-wrap gap-2">
+          <img src="https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white" alt="C">
+          <img src="https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++">
+          <img src="https://img.shields.io/badge/python-3670A0.svg?style=for-the-badge&logo=python&logoColor=ffdd54" alt="Python">
+          <img src="https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white" alt="Rust">
+          <img src="https://img.shields.io/badge/GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white" alt="GraphQL">
+        </div>
+      </div>
+
+      <!-- Cloud & DevOps -->
+      <div>
+        <h4 class="font-semibold text-purple-300 mb-2">☁️ Cloud & DevOps Tools</h4>
+        <div class="flex flex-wrap gap-2">
+          <img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" alt="AWS">
+          <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+          <img src="https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Kubernetes">
+          <img src="https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7" alt="Netlify">
+          <img src="https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel">
+        </div>
+      </div>
+
+      <!-- Frontend & Web -->
+      <div>
+        <h4 class="font-semibold text-purple-300 mb-2">🖥️ Frontend & Web Development</h4>
+        <div class="flex flex-wrap gap-2">
+          <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React">
+          <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS">
+          <img src="https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white" alt="Prisma">
+          <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase">
+          <img src="https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase&logoColor=white" alt="Firebase">
+        </div>
+      </div>
+
+      <!-- Tools & Misc -->
+      <div>
+        <h4 class="font-semibold text-purple-300 mb-2">📊 Tools & Miscellaneous</h4>
+        <div class="flex flex-wrap gap-2">
+          <img src="https://img.shields.io/badge/GNU%20Radio-%23000000.svg?style=for-the-badge&logo=gnuradio&logoColor=white" alt="GNU Radio">
+          <img src="https://img.shields.io/badge/MATLAB-%23000000.svg?style=for-the-badge&logo=mathworks&logoColor=white" alt="MATLAB">
+          <img src="https://img.shields.io/badge/Make-%23000000.svg?style=for-the-badge&logo=gnu&logoColor=white" alt="Make">
+          <img src="https://img.shields.io/badge/GDB-%23000000.svg?style=for-the-badge&logo=gnu&logoColor=white" alt="GDB">
+          <img src="https://img.shields.io/badge/Git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white" alt="Git">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- About -->
     <section id="about" class="mt-16">
@@ -398,6 +411,20 @@
       </div>
     </section>
 
+      <!-- Badges -->
+        <div class="mt-4 flex flex-wrap gap-2">
+          <a href="mailto:abhijitraiisme@gmail.com"><img src="https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white" alt="Email"></a>
+          <a href="https://linkedin.com/in/abhijit-rai-163214280"><img src="https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white" alt="LinkedIn"></a>
+          <a href="https://x.com/Abhijit60770464"><img src="https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white" alt="X"></a>
+          <a href="https://instagram.com/aerostorm19"><img src="https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white" alt="Instagram"></a>
+          <a href="https://medium.com/@abhi160407"><img src="https://img.shields.io/badge/Medium-12100E?logo=medium&logoColor=white" alt="Medium"></a>
+        </div>
+    
+     <!-- GitHub Trophies -->
+        <div class="mt-4">
+          <img src="https://github-profile-trophy.vercel.app/?username=alamimran613&theme=radical&no-frame=false&no-bg=false&margin-w=4" alt="GitHub Trophies">
+        </div>
+    
     <!-- Contact -->
     <section id="contact" class="mt-16">
       <h2 class="text-2xl font-semibold">Get in touch</h2>
