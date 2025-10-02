@@ -6,211 +6,475 @@
   <title>Abhijit Rai — Embedded Systems & FPGA Engineer</title>
   <meta name="description" content="Abhijit Rai — Embedded systems, FPGA design, RISC-V, SDR, and AI-powered security. Portfolio and projects." />
   <link rel="icon" href="/favicon.ico" />
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    html { scroll-behavior: smooth; }
-    .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(6px); }
-    .card-hover { transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s; }
-    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(2,6,23,0.45); }
-    .accent { color: #7c3aed; }
-    a:focus, button:focus, input:focus, textarea:focus {
-      outline: 3px solid rgba(124,58,237,0.3); outline-offset: 2px;
+    /* Global */
+    :root{
+      --bg:#071026;
+      --card: rgba(255,255,255,0.05);
+      --muted: #94a3b8;
+      --accent: #7c3aed;
+      --accent-2: #00e5ff;
+      --glass-border: rgba(255,255,255,0.06);
     }
+    html { scroll-behavior: smooth; }
+    body{ background: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.06), transparent 10%),
+                    radial-gradient(1000px 600px at 90% 90%, rgba(0,229,255,0.03), transparent 8%),
+                    var(--bg); color:#e6eef8; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; }
+
+    /* Subtle animated lines in background */
+    .bg-lines{
+      position: absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,1), rgba(0,0,0,0.95));
+    }
+    .line {
+      position:absolute; width:220%; height:1px; background:linear-gradient(90deg, transparent, rgba(124,58,237,0.12), transparent);
+      transform: rotate(-6deg); opacity:0.6; animation: float 8s linear infinite;
+    }
+    .line.l2 { top:20%; left:-40%; animation-duration:9s; transform: rotate(-8deg); }
+    .line.l3 { top:55%; left:-30%; animation-duration:11s; transform: rotate(-4deg); opacity:0.45; }
+    @keyframes float { from { transform: translateX(-8%) rotate(-6deg); } to { transform: translateX(8%) rotate(-6deg); } }
+
+    /* Glass cards */
+    .glass { background: var(--card); backdrop-filter: blur(8px); border: 1px solid var(--glass-border); box-shadow: 0 6px 22px rgba(2,6,23,0.45); border-radius: 14px; }
+    .card-hover { transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s, box-shadow 200ms; }
+    .card-hover:hover { transform: translateY(-8px); box-shadow: 0 18px 46px rgba(2,6,23,0.6); }
+
+    /* Accent link */
+    .accent { color: var(--accent); }
+    .btn-accent { background: linear-gradient(90deg,var(--accent), #5b21b6); color:white; border-radius:10px; padding:.55rem .9rem; display:inline-block; font-weight:600; }
+
+    /* Hero */
+    .hero-grid { position:relative; z-index:10; }
+    .hero-title { font-weight:800; letter-spacing:-0.02em; color: #e6eef8; }
+    .hero-sub { color:var(--muted); }
+
+    /* Nav small */
+    header { position:sticky; top:0; z-index:30; background: linear-gradient(180deg, rgba(7,16,38,0.6), rgba(7,16,38,0.18)); backdrop-filter: blur(6px); border-bottom:1px solid rgba(255,255,255,0.02); }
+    .nav-link { color: #cbd5e1; padding:.4rem .6rem; border-radius:8px; font-weight:600; font-size:.95rem; }
+    .nav-link.active { background: linear-gradient(90deg, rgba(124,58,237,0.12), rgba(0,229,255,0.02)); box-shadow: inset 0 0 10px rgba(124,58,237,0.03); color:#fff; border:1px solid rgba(124,58,237,0.12); }
+
+    /* Skills radial */
+    .radial { width:96px; height:96px; display:grid; place-items:center; border-radius:14px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); }
+    .tech-chip { padding:.45rem .7rem; border-radius:999px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); font-weight:600; font-size:.78rem; cursor:pointer; transition: transform .18s ease, box-shadow .18s; }
+    .tech-chip:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 12px 30px rgba(2,6,23,0.45); }
+
+    /* Project tilt effect */
+    .proj { transform-style: preserve-3d; transition: transform .28s cubic-bezier(.2,.9,.3,1); }
+    .proj:hover { transform: perspective(900px) rotateX(3deg) rotateY(-6deg) translateY(-6px); }
+
+    /* Responsive tweaks */
+    @media (max-width:768px){
+      .line { display:none; }
+      .nav-link { padding:.35rem .45rem; font-size:.9rem; }
+    }
+
+    /* focus outlines */
+    a:focus, button:focus, input:focus, textarea:focus { outline: 3px solid rgba(124,58,237,0.18); outline-offset:2px; }
+
+    /* footer */
+    footer a { color:var(--muted); text-decoration:underline; }
   </style>
 </head>
 
-<body class="bg-[#0b1020] text-slate-200 leading-relaxed antialiased">
+<body>
+  <!-- animated background lines -->
+  <div class="bg-lines" aria-hidden="true">
+    <div class="line l1" style="top:10%; left:-50%;"></div>
+    <div class="line l2" style="top:30%; left:-40%;"></div>
+    <div class="line l3" style="top:65%; left:-30%;"></div>
+  </div>
 
-  <!-- NAVBAR -->
-  <header class="max-w-6xl mx-auto p-6 flex items-center justify-between">
-    <a href="#hero" class="text-xl font-semibold tracking-wide">Abhijit Rai</a>
-    <nav class="hidden md:flex gap-6 text-slate-300">
-      <a href="#projects" class="hover:underline">Projects</a>
-      <a href="#skills" class="hover:underline">Skills</a>
-      <a href="#about" class="hover:underline">About</a>
-      <a href="#education" class="hover:underline">Education</a>
-      <a href="#experience" class="hover:underline">Experience</a>
-      <a href="#featured" class="hover:underline">Featured</a>
-      <a href="#contact" class="hover:underline">Contact</a>
+  <!-- NAV -->
+  <header class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#hero" class="text-lg font-semibold">Abhijit Rai</a>
+
+    <nav id="topnav" class="hidden md:flex gap-3">
+      <a class="nav-link" href="#projects">Projects</a>
+      <a class="nav-link" href="#skills">Skills</a>
+      <a class="nav-link" href="#about">About</a>
+      <a class="nav-link" href="#education">Education</a>
+      <a class="nav-link" href="#experience">Experience</a>
+      <a class="nav-link" href="#featured">Featured</a>
+      <a class="nav-link" href="#contact">Contact</a>
     </nav>
-    <button id="menuBtn" class="md:hidden text-slate-300 text-2xl">☰</button>
+
+    <div class="md:hidden">
+      <button id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" class="p-2 rounded-md text-slate-200">☰</button>
+    </div>
   </header>
 
-  <main class="max-w-6xl mx-auto px-6 pb-24">
+  <!-- MOBILE MENU -->
+  <div id="mobileMenu" class="md:hidden max-w-6xl mx-auto px-6 hidden">
+    <nav class="flex flex-col gap-2 py-2">
+      <a class="nav-link" href="#projects">Projects</a>
+      <a class="nav-link" href="#skills">Skills</a>
+      <a class="nav-link" href="#about">About</a>
+      <a class="nav-link" href="#education">Education</a>
+      <a class="nav-link" href="#experience">Experience</a>
+      <a class="nav-link" href="#featured">Featured</a>
+      <a class="nav-link" href="#contact">Contact</a>
+    </nav>
+  </div>
+
+  <main class="max-w-6xl mx-auto px-6 pb-24 relative z-10">
+
     <!-- HERO -->
-    <section id="hero" class="pt-12 grid md:grid-cols-3 gap-8 items-center">
+    <section id="hero" class="hero-grid pt-12 grid md:grid-cols-3 gap-8 items-center">
       <div class="md:col-span-2">
-        <h1 class="text-4xl md:text-5xl font-bold leading-tight">Abhijit Rai</h1>
-        <p class="mt-3 text-slate-300 text-lg">Designing secure, high-performance embedded systems — built to think fast, adapt faster, and never break under pressure.</p>
-        <p class="mt-3 text-slate-400 text-sm">
-          Electronics & Telecommunication student building at the HW-SW boundary — STM32, FPGA, RISC-V, SDRs, and AI for security & disaster resilience.
+        <h1 class="hero-title text-4xl md:text-5xl">Hi, I'm <span class="accent">Abhijit</span> — you can call me <span class="accent">Abhi</span>.</h1>
+        <p class="mt-4 hero-sub text-lg max-w-3xl">
+          Electronics & Telecommunication engineer in the making. I build systems at the hardware–software boundary: STM32 firmware, FPGA & SoC design, SDR pipelines, and AI-powered security tools. I like hard problems that need both soldering and code.
         </p>
-        <div class="mt-6 flex gap-3 flex-wrap">
-          <a href="/resume.pdf" class="px-4 py-2 rounded-lg glass border border-slate-700 text-sm">Download Resume</a>
-          <a href="https://github.com/aerostorm19" target="_blank" rel="noopener" class="px-4 py-2 rounded-lg bg-[#7c3aed] text-white text-sm">GitHub</a>
+
+        <div class="mt-6 flex flex-wrap gap-3 items-center">
+          <a href="/resume.pdf" class="btn-accent">Download Resume</a>
+          <a href="https://github.com/aerostorm19" target="_blank" rel="noopener" class="px-4 py-2 rounded-lg glass text-sm">GitHub</a>
+          <a href="https://www.linkedin.com/in/abhijit-rai-163214280" target="_blank" rel="noopener" class="px-4 py-2 rounded-lg glass text-sm">LinkedIn</a>
+        </div>
+
+        <div class="mt-6 flex flex-wrap gap-3 text-xs text-slate-300">
+          <span class="px-2 py-1 glass rounded">STM32</span>
+          <span class="px-2 py-1 glass rounded">RISC-V</span>
+          <span class="px-2 py-1 glass rounded">Verilog</span>
+          <span class="px-2 py-1 glass rounded">Python</span>
+          <span class="px-2 py-1 glass rounded">FreeRTOS</span>
         </div>
       </div>
+
       <div class="flex justify-center md:justify-end mt-6 md:mt-0">
-        <div class="w-40 h-40 rounded-xl overflow-hidden ring-1 ring-white/5 card-hover">
-          <!-- Replace image later -->
-          <img src="https://avatars.githubusercontent.com/u/0?v=4" alt="Profile" class="w-full h-full object-cover" />
+        <div class="w-44 h-44 md:w-48 md:h-48 rounded-xl overflow-hidden ring-1 ring-white/5 card-hover">
+          <!-- Replace later -->
+          <img src="https://avatars.githubusercontent.com/u/0?v=4" alt="Abhijit profile" class="w-full h-full object-cover" />
         </div>
       </div>
     </section>
 
-    <!-- PROJECTS -->
-    <section id="projects" class="mt-20">
-      <h2 class="text-2xl font-semibold mb-2">Featured Projects</h2>
-      <p class="text-slate-400 mb-6 text-sm">A selection of my hardware, software & security work.</p>
+    <!-- Projects -->
+    <section id="projects" class="mt-16">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-semibold">Projects</h2>
+        <div class="text-sm text-slate-400">Selected work across embedded, FPGA, and security</div>
+      </div>
 
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <!-- Repeat cards for each project -->
-        <article class="p-5 rounded-2xl glass card-hover">
-          <h3 class="font-semibold">GLOF Early Warning System</h3>
-          <p class="text-slate-300 mt-2 text-sm">Satellite-based flood prediction & geospatial analysis. SIH Finalist 2024.</p>
-          <div class="mt-3 text-xs text-slate-400">Python • ML • Cloud</div>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Project cards -->
+        <article class="proj glass p-5 card-hover">
+          <div class="flex items-start justify-between">
+            <h3 class="font-semibold">GLOFzilla — Early Warning System</h3>
+            <div class="text-xs text-slate-400">SIH Finalist 2024</div>
+          </div>
+          <p class="mt-3 text-slate-300 text-sm">Predicting Glacial Lake Outburst Floods using edge telemetry + satellite analytics and alert workflows.</p>
+          <div class="mt-4 flex gap-2 items-center">
+            <a class="text-sm underline" href="#">Repo</a>
+            <a class="text-sm underline" href="https://x.com/IaSouthern/status/1864543340655411416" target="_blank" rel="noopener">Press</a>
+          </div>
         </article>
 
-        <article class="p-5 rounded-2xl glass card-hover">
+        <article class="proj glass p-5 card-hover">
           <h3 class="font-semibold">ML-Based Web App Firewall</h3>
-          <p class="text-slate-300 mt-2 text-sm">Real-time anomaly detection for API traffic with automated blocking.</p>
-          <div class="mt-3 text-xs text-slate-400">Python • Node.js • Docker</div>
+          <p class="mt-3 text-slate-300 text-sm">Anomaly detection & automated response system for API security.</p>
+          <div class="mt-3 text-xs text-slate-400">Python • FastAPI • Docker</div>
         </article>
 
-        <article class="p-5 rounded-2xl glass card-hover">
+        <article class="proj glass p-5 card-hover">
           <h3 class="font-semibold">AI Smart Contract Auditor</h3>
-          <p class="text-slate-300 mt-2 text-sm">Automated vulnerability scanning & prioritization for smart contracts.</p>
-          <div class="mt-3 text-xs text-slate-400">Node.js • ML • Blockchain</div>
+          <p class="mt-3 text-slate-300 text-sm">LLM-assisted vulnerability scanning with prioritized fixes (npm + web app).</p>
+          <div class="mt-3 text-xs text-slate-400">TypeScript • LLM • Blockchain</div>
         </article>
 
-        <article class="p-5 rounded-2xl glass card-hover">
-          <h3 class="font-semibold">Secure Boot & Root-of-Trust</h3>
-          <p class="text-slate-300 mt-2 text-sm">STM32 secure boot preventing unauthorized firmware execution.</p>
+        <article class="proj glass p-5 card-hover">
+          <h3 class="font-semibold">Secure Boot — Root of Trust (STM32)</h3>
+          <p class="mt-3 text-slate-300 text-sm">Chain of trust for MCU firmware authentication and secure updates.</p>
           <div class="mt-3 text-xs text-slate-400">STM32 • C • Crypto</div>
         </article>
 
-        <article class="p-5 rounded-2xl glass card-hover">
+        <article class="proj glass p-5 card-hover">
           <h3 class="font-semibold">5-Stage Pipelined RISC-V CPU</h3>
-          <p class="text-slate-300 mt-2 text-sm">Custom SystemVerilog core with trap/syscall, MMU & MDU support.</p>
-          <div class="mt-3 text-xs text-slate-400">SystemVerilog • CPU Design</div>
+          <p class="mt-3 text-slate-300 text-sm">SystemVerilog core with trap/syscall, MMU interface, and multiply/divide unit.</p>
         </article>
 
-        <article class="p-5 rounded-2xl glass card-hover">
-          <h3 class="font-semibold">NIOS II SoC + Mixed Signal FPGA</h3>
-          <p class="text-slate-300 mt-2 text-sm">Custom SoC and mixed-signal PWM-ADC system on DE10-Lite FPGA.</p>
-          <div class="mt-3 text-xs text-slate-400">Verilog • Quartus • Embedded C</div>
+        <article class="proj glass p-5 card-hover">
+          <h3 class="font-semibold">NIOS II SoC & Mixed-Signal on FPGA</h3>
+          <p class="mt-3 text-slate-300 text-sm">Custom SoC on DE10-Lite, PWM/ADC mixed-signal modules and device drivers.</p>
         </article>
       </div>
     </section>
 
-    <!-- SKILLS -->
+    <!-- Skills -->
     <section id="skills" class="mt-20">
-      <h2 class="text-2xl font-semibold mb-4">Skills & Tech</h2>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-slate-300 text-sm">
-        <ul class="list-disc list-inside space-y-1">
-          <li>STM32, ARM ASM, FreeRTOS, CAN, SPI, I²C</li>
-          <li>Verilog, SystemVerilog, Vivado, Quartus</li>
-          <li>C, C++, Python, Rust</li>
-        </ul>
-        <ul class="list-disc list-inside space-y-1">
-          <li>Docker, AWS, Kubernetes</li>
-          <li>PyTorch, TensorFlow, Geospatial ML</li>
-          <li>React, Tailwind, Node.js</li>
-        </ul>
-        <ul class="list-disc list-inside space-y-1">
-          <li>SDR Systems, Protocol Design</li>
-          <li>ASIC & SoC Fundamentals</li>
-          <li>Embedded Security, AI Tools</li>
-        </ul>
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-semibold">Skills & Tech — Radar</h2>
+        <div class="text-sm text-slate-400">Core strengths & tooling</div>
+      </div>
+
+      <div class="mt-6 grid lg:grid-cols-3 gap-6">
+        <!-- Left: Radial skill meters -->
+        <div class="glass p-6 grid grid-cols-3 gap-4">
+          <!-- A simple SVG radial progress template -->
+          <div class="radial flex flex-col items-center justify-center">
+            <svg width="64" height="64" viewBox="0 0 36 36" class="mb-2">
+              <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831 15.9155 15.9155 0 1 0 0-31.831" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+              <path class="stroke-rad" stroke-linecap="round" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="url(#g1)" stroke-width="2" stroke-dasharray="80 100" />
+              <defs><linearGradient id="g1"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#00e5ff"/></linearGradient></defs>
+            </svg>
+            <div class="text-xs text-slate-200">Embedded</div>
+          </div>
+
+          <div class="radial flex flex-col items-center justify-center">
+            <svg width="64" height="64" viewBox="0 0 36 36" class="mb-2">
+              <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+              <path stroke-linecap="round" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="url(#g2)" stroke-width="2" stroke-dasharray="65 100" />
+              <defs><linearGradient id="g2"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#00e5ff"/></linearGradient></defs>
+            </svg>
+            <div class="text-xs text-slate-200">FPGA</div>
+          </div>
+
+          <div class="radial flex flex-col items-center justify-center">
+            <svg width="64" height="64" viewBox="0 0 36 36" class="mb-2">
+              <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+              <path stroke-linecap="round" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="url(#g3)" stroke-width="2" stroke-dasharray="55 100" />
+              <defs><linearGradient id="g3"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#00e5ff"/></linearGradient></defs>
+            </svg>
+            <div class="text-xs text-slate-200">ML & Data</div>
+          </div>
+
+          <div class="radial flex flex-col items-center justify-center">
+            <svg width="64" height="64" viewBox="0 0 36 36" class="mb-2">
+              <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+              <path stroke-linecap="round" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="url(#g4)" stroke-width="2" stroke-dasharray="75 100" />
+              <defs><linearGradient id="g4"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#00e5ff"/></linearGradient></defs>
+            </svg>
+            <div class="text-xs text-slate-200">Embedded Security</div>
+          </div>
+
+          <div class="radial flex flex-col items-center justify-center">
+            <svg width="64" height="64" viewBox="0 0 36 36" class="mb-2">
+              <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+              <path stroke-linecap="round" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="url(#g5)" stroke-width="2" stroke-dasharray="45 100" />
+              <defs><linearGradient id="g5"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#00e5ff"/></linearGradient></defs>
+            </svg>
+            <div class="text-xs text-slate-200">SoC</div>
+          </div>
+
+          <div class="radial flex flex-col items-center justify-center">
+            <svg width="64" height="64" viewBox="0 0 36 36" class="mb-2">
+              <path d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+              <path stroke-linecap="round" d="M18 2.0845a15.9155 15.9155 0 1 0 0 31.831" fill="none" stroke="url(#g6)" stroke-width="2" stroke-dasharray="85 100" />
+              <defs><linearGradient id="g6"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#00e5ff"/></linearGradient></defs>
+            </svg>
+            <div class="text-xs text-slate-200">Firmware</div>
+          </div>
+        </div>
+
+        <!-- Middle: Tech chips -->
+        <div class="glass p-6">
+          <h4 class="font-semibold mb-3">Tech stack</h4>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <button class="tech-chip">C / C++</button>
+            <button class="tech-chip">Python</button>
+            <button class="tech-chip">Rust</button>
+            <button class="tech-chip">Verilog</button>
+            <button class="tech-chip">SystemVerilog</button>
+            <button class="tech-chip">STM32</button>
+            <button class="tech-chip">FreeRTOS</button>
+            <button class="tech-chip">TensorFlow</button>
+            <button class="tech-chip">Docker</button>
+          </div>
+
+          <p class="mt-4 text-sm text-slate-400">Tip: hover chips to feel the micro-interaction. Logos can be added later per chip.</p>
+        </div>
+
+        <!-- Right: Skill bars / quick stat -->
+        <div class="glass p-6">
+          <h4 class="font-semibold mb-3">Quick Stats</h4>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-sm mb-1"><span>Embedded Systems</span><span class="text-slate-400">90%</span></div>
+              <div class="w-full bg-white/3 rounded-full h-2"><div style="width:90%" class="h-2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#00e5ff]"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1"><span>FPGA & HDL</span><span class="text-slate-400">78%</span></div>
+              <div class="w-full bg-white/3 rounded-full h-2"><div style="width:78%" class="h-2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#00e5ff]"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1"><span>ML & Data</span><span class="text-slate-400">60%</span></div>
+              <div class="w-full bg-white/3 rounded-full h-2"><div style="width:60%" class="h-2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#00e5ff]"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1"><span>Embedded Security</span><span class="text-slate-400">72%</span></div>
+              <div class="w-full bg-white/3 rounded-full h-2"><div style="width:72%" class="h-2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#00e5ff]"></div></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="mt-20">
-      <h2 class="text-2xl font-semibold mb-4">About</h2>
-      <div class="p-5 rounded-2xl glass">
-        <p class="text-slate-300 text-sm leading-relaxed">
-          I’m a 3rd-year Electronics & Telecommunication student at AIT Pune, working at the intersection of embedded systems, FPGA, and AI. 
-          From STM32-based sensor networks to RISC-V CPU design, I love building systems that merge performance with security.
-        </p>
+    <!-- About -->
+    <section id="about" class="mt-16">
+      <h2 class="text-2xl font-semibold">About</h2>
+      <div class="mt-4 grid md:grid-cols-3 gap-6">
+        <div class="md:col-span-2 glass p-6">
+          <p class="text-slate-300 text-sm leading-relaxed">
+            Hi, I'm Abhijit. In India, friends call me "Abhi" — short and simple, like the code I try to write.
+            I'm a 3rd-year Electronics & Telecommunication student at the Army Institute of Technology, Pune.
+            I enjoy building things at the intersection of circuits, code, and curiosity — from crafting RISC-V CPU stages and SDR pipelines to designing fault-tolerant embedded controllers and ML-driven security tools.
+          </p>
+
+          <p class="mt-4 text-slate-300 text-sm leading-relaxed">
+            Before university I pulled gadgets apart to see how they worked. That curiosity became engineering: STM32 control stacks for autonomous drones, FPGA SoCs, and large-scale hackathon systems. I like seeing small experiments scale into real impact — which is how GLOFzilla and ML-WAF came to life.
+          </p>
+
+          <p class="mt-4 text-slate-300 text-sm leading-relaxed">
+            Outside engineering, I sketch, play basketball, and mentor juniors. I enjoy the mix of building, telling the story of what I built, and shipping it so others can use it.
+          </p>
+        </div>
+
+        <aside class="glass p-6">
+          <h4 class="font-semibold mb-2">Leadership & Clubs</h4>
+          <ul class="text-sm text-slate-300 list-disc list-inside space-y-1">
+            <li>Embedded Lead — CEAR Robotics Club</li>
+            <li>Joint Secretary — OSS Club & E-Cell</li>
+            <li>Organized Innerve Hackathon (4k+ participants)</li>
+          </ul>
+
+          <h4 class="font-semibold mt-4 mb-2">Contact</h4>
+          <div class="text-sm text-slate-300 space-y-1">
+            <div>Email: <a href="mailto:abhi160407@gmail.com" class="underline text-slate-200">abhi160407@gmail.com</a></div>
+            <div>GitHub: <a href="https://github.com/aerostorm19" target="_blank" rel="noopener" class="underline">aerostorm19</a></div>
+          </div>
+        </aside>
       </div>
     </section>
 
-    <!-- EDUCATION -->
-    <section id="education" class="mt-20">
-      <h2 class="text-2xl font-semibold mb-4">Education</h2>
-      <div class="grid sm:grid-cols-2 gap-4">
-        <div class="p-4 rounded-xl glass">
-          <h4 class="font-semibold">B.E. — Electronics & Telecommunication</h4>
-          <p class="text-sm text-slate-400">Army Institute of Technology, Pune</p>
+    <!-- Education -->
+    <section id="education" class="mt-16">
+      <h2 class="text-2xl font-semibold">Education</h2>
+      <div class="mt-4 grid md:grid-cols-2 gap-4">
+        <div class="glass p-4">
+          <h4 class="font-semibold">Army Institute of Technology, Pune</h4>
+          <p class="text-sm text-slate-400">B.E. — Electronics & Telecommunication (2023 - 2027)</p>
         </div>
-        <div class="p-4 rounded-xl glass">
-          <h4 class="font-semibold">IIT Madras — Exchange</h4>
-          <p class="text-sm text-slate-400">Specialization in Embedded Systems & FPGA</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- EXPERIENCE -->
-    <section id="experience" class="mt-20">
-      <h2 class="text-2xl font-semibold mb-4">Experience</h2>
-      <div class="space-y-4">
-        <div class="p-4 rounded-xl glass">
-          <h4 class="font-semibold">Undergraduate Research Assistant — SDR Project</h4>
-          <p class="text-sm text-slate-400">Worked on modulation schemes and transceiver design.</p>
-        </div>
-        <div class="p-4 rounded-xl glass">
-          <h4 class="font-semibold">Undergraduate Research Assistant — FPGA/SoC Design</h4>
-          <p class="text-sm text-slate-400">Focused on SoC design using Quartus and Verilog on DE10-Lite.</p>
-        </div>
-        <div class="p-4 rounded-xl glass">
-          <h4 class="font-semibold">Web Developer — Club Innerve</h4>
-          <p class="text-sm text-slate-400">Built hackathon platform for 4k+ participants.</p>
+        <div class="glass p-4">
+          <h4 class="font-semibold">IIT Madras — Exchange Program</h4>
+          <p class="text-sm text-slate-400">Specialization in Embedded Systems & FPGA (Sep 2023 - Jul 2024)</p>
         </div>
       </div>
     </section>
 
-    <!-- FEATURED -->
-    <section id="featured" class="mt-20">
-      <h2 class="text-2xl font-semibold mb-4">Featured On</h2>
-      <div class="grid sm:grid-cols-2 gap-4">
-        <div class="p-4 rounded-xl glass">
+    <!-- Experience -->
+    <section id="experience" class="mt-16">
+      <h2 class="text-2xl font-semibold">Experience</h2>
+      <div class="mt-4 space-y-4">
+        <div class="glass p-4">
+          <h4 class="font-semibold">Undergraduate Research Assistant — ML-Based Web App Firewall</h4>
+          <p class="text-sm text-slate-400">Jan 2025 - Apr 2025 — AIT Pune</p>
+        </div>
+        <div class="glass p-4">
+          <h4 class="font-semibold">Undergraduate Research Assistant — SDR Transceiver</h4>
+          <p class="text-sm text-slate-400">Dec 2024 - Present — AIT Pune</p>
+        </div>
+        <div class="glass p-4">
+          <h4 class="font-semibold">Web Developer — AIT OSS Team</h4>
+          <p class="text-sm text-slate-400">Aug 2023 - Present — Open source & web projects</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured -->
+    <section id="featured" class="mt-16">
+      <h2 class="text-2xl font-semibold">Featured</h2>
+      <div class="mt-4 grid md:grid-cols-2 gap-4">
+        <div class="glass p-4">
           <h4 class="font-semibold">Smart India Hackathon</h4>
-          <p class="text-sm text-slate-400">National finalist for disaster management solution.</p>
+          <p class="text-sm text-slate-400">Finalist with GLOFzilla — early warning system for glacial lake outburst floods.</p>
         </div>
-        <div class="p-4 rounded-xl glass">
+        <div class="glass p-4">
           <h4 class="font-semibold">Southern Command Feature</h4>
-          <p class="text-sm text-slate-400">Recognized for innovation in security systems.</p>
+          <p class="text-sm text-slate-400">Recognition for the team's contribution to disaster preparedness & tech solutions.</p>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="mt-20">
-      <h2 class="text-2xl font-semibold mb-2">Contact</h2>
-      <p class="text-slate-400 mb-6 text-sm">Reach out for collaborations, mentorship, or freelance embedded work.</p>
-      <form id="contactForm" class="grid gap-4 max-w-lg">
-        <input type="text" name="name" placeholder="Your Name" required class="p-3 rounded-lg bg-[#11162a] border border-slate-700 text-sm" />
-        <input type="email" name="email" placeholder="Your Email" required class="p-3 rounded-lg bg-[#11162a] border border-slate-700 text-sm" />
-        <textarea name="message" placeholder="Your Message" rows="4" required class="p-3 rounded-lg bg-[#11162a] border border-slate-700 text-sm"></textarea>
-        <button type="submit" class="px-4 py-2 rounded-lg bg-[#7c3aed] text-white text-sm">Send Message</button>
+    <!-- Contact -->
+    <section id="contact" class="mt-16">
+      <h2 class="text-2xl font-semibold">Get in touch</h2>
+      <p class="text-slate-400 mt-2 text-sm">Reach out for collaborations, mentorship or freelance embedded work. I typically respond within a few days.</p>
+
+      <form id="contactForm" class="mt-6 grid gap-3 max-w-2xl">
+        <div class="grid sm:grid-cols-2 gap-3">
+          <input name="name" required placeholder="Your name" class="p-3 rounded-lg bg-[#071428] border border-white/6" />
+          <input name="email" type="email" required placeholder="Your email" class="p-3 rounded-lg bg-[#071428] border border-white/6" />
+        </div>
+        <textarea name="message" rows="5" required placeholder="Message" class="p-3 rounded-lg bg-[#071428] border border-white/6"></textarea>
+        <div class="flex items-center gap-3">
+          <button type="submit" class="btn-accent">Send Message</button>
+          <div class="text-sm text-slate-400">Will integrate with EmailJS — form handler placeholder included in JS below.</div>
+        </div>
       </form>
     </section>
+
   </main>
 
-  <!-- FOOTER -->
   <footer class="max-w-6xl mx-auto px-6 py-8 text-slate-500 text-sm text-center">
-    Built with ❤️ • Hosted on GitHub Pages • <a href="https://github.com/aerostorm19" class="underline">aerostorm19</a>
+    Built with intent • Hosted on GitHub Pages • <a href="https://github.com/aerostorm19" target="_blank" rel="noopener">aerostorm19</a>
   </footer>
 
   <script>
-    document.getElementById('menuBtn').addEventListener('click', () => {
-      alert('Use the navigation links or switch to desktop to view the full menu.');
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn && menuBtn.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('hidden') === false;
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
 
-    document.getElementById('contactForm').addEventListener('submit', e => {
+    // Scroll-spy: highlight nav links when sections are in view
+    const navLinks = [...document.querySelectorAll('a.nav-link, header nav a.nav-link')];
+    const sections = [...document.querySelectorAll('main section[id]')];
+
+    function onScrollSpy(){
+      const scrollPos = window.scrollY + (window.innerHeight * 0.25);
+      let current = sections[0];
+      for (const sec of sections){
+        if (sec.offsetTop <= scrollPos) current = sec;
+      }
+      // remove active from all
+      document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+      const activeLink = document.querySelector(`.nav-link[href="#${current.id}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+    onScrollSpy();
+    window.addEventListener('scroll', onScrollSpy);
+    window.addEventListener('resize', onScrollSpy);
+
+    // Simple project tilt micro interactions
+    document.querySelectorAll('.proj').forEach(card=>{
+      card.addEventListener('mousemove', e=>{
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = `perspective(800px) rotateX(${(-y*6)}deg) rotateY(${(x*6)}deg) translateZ(6px)`;
+      });
+      card.addEventListener('mouseleave', ()=> card.style.transform = '');
+    });
+
+    // Contact form placeholder - integrate EmailJS or Formspree here
+    document.getElementById('contactForm').addEventListener('submit', function(e){
       e.preventDefault();
-      alert('Form submitted — integrate EmailJS or Formspree here.');
+      // Example EmailJS integration placeholder:
+      // emailjs.sendForm('service_id', 'template_id', this)
+      //   .then(() => alert('Message sent — thanks!'))
+      //   .catch(() => alert('Failed to send — try again later.'));
+      alert('Form submitted (placeholder). Add EmailJS code where indicated in this script.');
+      this.reset();
+    });
+
+    // Progressive micro-animations for tech chips
+    document.querySelectorAll('.tech-chip').forEach((chip, i) => {
+      chip.style.transitionDelay = (i*40)+'ms';
     });
   </script>
 </body>
