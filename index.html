@@ -57,13 +57,8 @@ header { position:sticky; top:0; z-index:30; background: linear-gradient(180deg,
 /* Footer */
 footer a { color:var(--muted); text-decoration:underline; }
 
-/* Tabs */
-.tab-btn { padding:.5rem 1rem; border-radius:999px; font-weight:600; font-size:.95rem; transition:.25s; }
-.tab-btn.active { background: linear-gradient(90deg, var(--accent), var(--accent-2)); color:white; }
-
-/* Animations */
-.fade { animation: fadeIn .4s ease; }
-@keyframes fadeIn { from {opacity:0; transform:translateY(12px);} to {opacity:1; transform:translateY(0);} }
+/* Focus */
+a:focus, button:focus, input:focus, textarea:focus { outline:3px solid rgba(124,58,237,0.18); outline-offset:2px; }
 
 @media (max-width:768px){ .line { display:none; } .nav-link { padding:.35rem .45rem; font-size:.9rem; } }
 </style>
@@ -145,37 +140,6 @@ footer a { color:var(--muted); text-decoration:underline; }
   </div>
 </section>
 
-<!-- Experience & Education -->
-<section id="experience" class="mt-20">
-  <div class="flex items-center justify-between">
-    <h2 class="text-2xl font-semibold">Work & Education</h2>
-    <div class="text-sm text-slate-400">Journey so far</div>
-  </div>
-  <div class="mt-6 flex gap-4">
-    <button class="tab-btn active" data-tab="work">Work</button>
-    <button class="tab-btn" data-tab="education">Education</button>
-  </div>
-  <div id="tab-content" class="mt-6 space-y-6 fade">
-    <!-- Work cards initially -->
-    <div class="glass p-6 card-hover">
-      <h3 class="text-lg font-semibold">DBS Bank</h3>
-      <p class="text-sm text-slate-400">Graduate Associate — Jul 2023 - Present</p>
-      <ul class="list-disc list-inside text-slate-300 mt-2 text-sm">
-        <li>Developed Java backend for account servicing process using Activiti workflow.</li>
-        <li>Built custom migration tool using Python & MariaDB for 1000+ processes.</li>
-      </ul>
-    </div>
-    <div class="glass p-6 card-hover">
-      <h3 class="text-lg font-semibold">Singapore Institute of Technology</h3>
-      <p class="text-sm text-slate-400">Software Developer (Contract) — Apr 2023 - Jun 2023</p>
-      <ul class="list-disc list-inside text-slate-300 mt-2 text-sm">
-        <li>Built NFTVue, NFT gallery website for student-issued NFTs.</li>
-        <li>Developed DemoConstruct, a React+Python web app for 3D reconstruction using Meshroom.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
 </main>
 
 <footer class="max-w-6xl mx-auto px-6 py-8 text-slate-500 text-sm text-center">
@@ -250,9 +214,6 @@ skills.forEach(s=>{
   </svg><div class="text-xs text-slate-200">${s.name}</div>`;
   radialContainer.appendChild(div);
 });
-
-/* Work & Education Tabs */
-const tabBtns=document.querySelectorAll('.tab-btn');
-const tabContent=document.getElementById('tab-content');
-const workHTML=`<div class="glass p-6 card-hover">
-  <
+</script>
+</body>
+</html>
