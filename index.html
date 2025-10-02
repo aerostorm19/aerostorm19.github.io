@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Abhijit Rai — Embedded Systems & FPGA Engineer</title>
+  <meta name="description" content="Abhijit Rai — Embedded systems, FPGA design, RISC-V, SDR, and AI-powered security. Portfolio and projects." />
+  <link rel="icon" href="/favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(6px); }
+    .card-hover { transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s; }
+    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(2,6,23,0.45); }
+    .accent { color: #7c3aed; }
+    a:focus, button:focus, input:focus, textarea:focus {
+      outline: 3px solid rgba(124,58,237,0.3); outline-offset: 2px;
+    }
+  </style>
+</head>
+
+<body class="bg-[#0b1020] text-slate-200 leading-relaxed antialiased">
+
+  <!-- HEADER -->
+  <header class="max-w-5xl mx-auto p-6 flex items-center justify-between">
+    <a href="#hero" class="text-xl font-semibold tracking-wide">Abhijit Rai</a>
+    <nav class="hidden md:flex gap-6 text-slate-300">
+      <a href="#projects" class="hover:underline">Projects</a>
+      <a href="#skills" class="hover:underline">Skills</a>
+      <a href="#about" class="hover:underline">About</a>
+      <a href="#contact" class="hover:underline">Contact</a>
+    </nav>
+    <button id="menuBtn" class="md:hidden text-slate-300">☰</button>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-6 pb-24">
+    <!-- HERO -->
+    <section id="hero" class="pt-12 grid md:grid-cols-3 gap-8 items-center">
+      <div class="md:col-span-2">
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight">Abhijit Rai</h1>
+        <p class="mt-3 text-slate-300 text-lg">Designing secure, high-performance embedded systems — built to think fast, adapt faster, and never break under pressure.</p>
+        <p class="mt-3 text-slate-400 text-sm">Electronics & Telecommunication engineer in the making. I build at the hardware-software boundary: STM32, FPGA, RISC-V, SDRs, and AI for security & disaster systems.</p>
+        <div class="mt-6 flex gap-3 flex-wrap">
+          <a href="/resume.pdf" class="px-4 py-2 rounded-lg glass border border-slate-700 text-sm">Download Resume</a>
+          <a href="https://github.com/aerostorm19" target="_blank" rel="noopener" class="px-4 py-2 rounded-lg bg-[#7c3aed] text-white text-sm">GitHub</a>
+        </div>
+      </div>
+      <div class="flex justify-center md:justify-end mt-6 md:mt-0">
+        <div class="w-40 h-40 rounded-xl overflow-hidden ring-1 ring-white/5 card-hover">
+          <img src="https://avatars.githubusercontent.com/u/0?v=4" alt="Profile" class="w-full h-full object-cover" />
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="mt-16">
+      <h2 class="text-2xl font-semibold mb-2">Featured Projects</h2>
+      <p class="text-slate-400 mb-6">A few projects that showcase my work across embedded, AI, and security domains.</p>
+
+      <div class="grid gap-6 sm:grid-cols-2">
+        <article class="p-5 rounded-2xl glass card-hover">
+          <h3 class="font-semibold">GLOF Early Warning System</h3>
+          <p class="text-slate-300 mt-2 text-sm">Satellite-based flood prediction & geospatial analysis system. SIH Finalist 2024.</p>
+          <div class="mt-3 text-xs text-slate-400">Python • ML • Cloud</div>
+          <div class="mt-4 flex gap-3">
+            <a href="#" class="underline text-sm">Repo</a>
+            <button data-project="glof" class="text-sm">Details</button>
+          </div>
+        </article>
+
+        <article class="p-5 rounded-2xl glass card-hover">
+          <h3 class="font-semibold">ML-Based Web App Firewall</h3>
+          <p class="text-slate-300 mt-2 text-sm">Real-time anomaly detection for API traffic with auto blocking & monitoring.</p>
+          <div class="mt-3 text-xs text-slate-400">Python • Node.js • Docker</div>
+          <div class="mt-4 flex gap-3">
+            <a href="#" class="underline text-sm">Repo</a>
+            <button data-project="waf" class="text-sm">Details</button>
+          </div>
+        </article>
+
+        <article class="p-5 rounded-2xl glass card-hover">
+          <h3 class="font-semibold">AI Smart Contract Auditor</h3>
+          <p class="text-slate-300 mt-2 text-sm">Automated vulnerability scanning & prioritization for smart contracts.</p>
+          <div class="mt-3 text-xs text-slate-400">Node.js • ML • Blockchain</div>
+          <div class="mt-4 flex gap-3">
+            <a href="#" class="underline text-sm">Repo</a>
+            <button data-project="sca" class="text-sm">Details</button>
+          </div>
+        </article>
+
+        <article class="p-5 rounded-2xl glass card-hover">
+          <h3 class="font-semibold">Secure Boot & Root-of-Trust</h3>
+          <p class="text-slate-300 mt-2 text-sm">STM32 secure boot chain preventing unauthorized firmware execution.</p>
+          <div class="mt-3 text-xs text-slate-400">STM32 • C • Crypto</div>
+          <div class="mt-4 flex gap-3">
+            <a href="#" class="underline text-sm">Repo</a>
+            <button data-project="secureboot" class="text-sm">Details</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="mt-16">
+      <h2 class="text-2xl font-semibold mb-4">Skills & Tech</h2>
+      <div class="grid sm:grid-cols-2 gap-4 text-slate-300 text-sm">
+        <ul class="list-disc list-inside space-y-1">
+          <li>STM32, ARM Assembly, FreeRTOS, CAN, SPI, I2C</li>
+          <li>Verilog, SystemVerilog, Vivado, Quartus</li>
+          <li>C, C++, Python, Rust</li>
+        </ul>
+        <ul class="list-disc list-inside space-y-1">
+          <li>Docker, AWS, Kubernetes</li>
+          <li>PyTorch, TensorFlow, Geospatial ML</li>
+          <li>React, Tailwind, Node.js</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="mt-16">
+      <h2 class="text-2xl font-semibold mb-4">About</h2>
+      <p class="text-slate-300 text-sm leading-relaxed">
+        I'm a 3rd-year Electronics & Telecommunication student at AIT Pune, building systems across circuits and code — from drone control on STM32 to RISC-V CPU design and ML-driven security tools.
+      </p>
+      <div class="mt-6 grid sm:grid-cols-2 gap-4">
+        <div class="p-4 rounded-xl glass">
+          <h4 class="font-semibold">Education</h4>
+          <p class="mt-2 text-sm text-slate-300">B.Eng — Electronics & Telecommunication — Army Institute of Technology, Pune</p>
+        </div>
+        <div class="p-4 rounded-xl glass">
+          <h4 class="font-semibold">Achievements</h4>
+          <ul class="mt-2 text-sm text-slate-300 list-disc list-inside">
+            <li>SIH Finalist — Disaster Management Solution</li>
+            <li>Organized Innerve Hackathons (4k+ participants)</li>
+            <li>Led embedded projects at CEAR Robotics</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT FORM -->
+    <section id="contact" class="mt-16">
+      <h2 class="text-2xl font-semibold mb-2">Contact</h2>
+      <p class="text-slate-400 mb-6 text-sm">Reach out for collaborations, mentorship, or freelance embedded systems work.</p>
+
+      <form id="contactForm" class="grid gap-4 max-w-lg">
+        <input type="text" name="name" placeholder="Your Name" required class="p-3 rounded-lg bg-[#11162a] border border-slate-700 text-sm" />
+        <input type="email" name="email" placeholder="Your Email" required class="p-3 rounded-lg bg-[#11162a] border border-slate-700 text-sm" />
+        <textarea name="message" placeholder="Your Message" rows="4" required class="p-3 rounded-lg bg-[#11162a] border border-slate-700 text-sm"></textarea>
+        <button type="submit" class="px-4 py-2 rounded-lg bg-[#7c3aed] text-white text-sm">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="max-w-5xl mx-auto px-6 py-8 text-slate-500 text-sm text-center">
+    Built with ❤️ • Hosted on GitHub Pages • <a href="https://github.com/aerostorm19" class="underline">aerostorm19</a>
+  </footer>
+
+  <!-- JS: Modals & nav -->
+  <script>
+    document.querySelectorAll('[data-project]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-project');
+        alert('Project details for: ' + id);
+      });
+    });
+
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      alert('Use the in-page nav links or resize to desktop for full nav.');
+    });
+
+    // You will integrate EmailJS here later
+    document.getElementById('contactForm').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Form submitted — connect EmailJS here.');
+    });
+  </script>
+</body>
+</html>
