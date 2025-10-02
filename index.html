@@ -6,115 +6,101 @@
   <title>Abhijit Rai — Embedded Systems & FPGA Engineer</title>
   <meta name="description" content="Abhijit Rai — Embedded systems, FPGA design, RISC-V, SDR, and AI-powered security. Portfolio and projects." />
   <link rel="icon" href="/favicon.ico" />
-  <!-- Tailwind CDN -->
+  <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- tsParticles for Ironman HUD particles -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.11.0/tsparticles.bundle.min.js"></script>
+
   <style>
-    /* Global */
-    :root{
-      --bg:#071026;
-      --card: rgba(255,255,255,0.05);
+    :root {
+      --bg: #071026;
+      --card: rgba(255,255,255,0.04);
       --muted: #94a3b8;
       --accent: #7c3aed;
-      --accent-2: #00e5ff;
-      --glass-border: rgba(255,255,255,0.06);
+      --glow: 0 8px 40px rgba(124,58,237,0.14);
     }
     html { scroll-behavior: smooth; }
-    body{ background: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.06), transparent 10%),
-                    radial-gradient(1000px 600px at 90% 90%, rgba(0,229,255,0.03), transparent 8%),
-                    var(--bg); color:#e6eef8; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; }
+    body { background: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.04), transparent 8%), radial-gradient(1000px 600px at 90% 90%, rgba(0,229,255,0.02), transparent 8%), var(--bg); color:#e6eef8; font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
 
-    /* Subtle animated lines in background */
-    .bg-lines{
-      position: absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none;
-      mask-image: linear-gradient(180deg, rgba(0,0,0,1), rgba(0,0,0,0.95));
-    }
-    .line {
-      position:absolute; width:220%; height:1px; background:linear-gradient(90deg, transparent, rgba(124,58,237,0.12), transparent);
-      transform: rotate(-6deg); opacity:0.6; animation: float 8s linear infinite;
-    }
-    .line.l2 { top:20%; left:-40%; animation-duration:9s; transform: rotate(-8deg); }
-    .line.l3 { top:55%; left:-30%; animation-duration:11s; transform: rotate(-4deg); opacity:0.45; }
-    @keyframes float { from { transform: translateX(-8%) rotate(-6deg); } to { transform: translateX(8%) rotate(-6deg); } }
+    /* HUD canvas occupies top hero area */
+    #tsparticles { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 
-    /* Glass cards */
-    .glass { background: var(--card); backdrop-filter: blur(8px); border: 1px solid var(--glass-border); box-shadow: 0 6px 22px rgba(2,6,23,0.45); border-radius: 14px; }
-    .card-hover { transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s, box-shadow 200ms; }
-    .card-hover:hover { transform: translateY(-8px); box-shadow: 0 18px 46px rgba(2,6,23,0.6); }
+    /* Glass cards + hover */
+    .glass { background: var(--card); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.04); border-radius: 14px; box-shadow: 0 6px 22px rgba(2,6,23,0.45); }
+    .card-hover { transition: transform .25s cubic-bezier(.2,.9,.3,1), box-shadow .25s; }
+    .card-hover:hover { transform: translateY(-10px); box-shadow: 0 24px 50px rgba(2,6,23,0.6); }
 
-    /* Accent link */
-    .accent { color: var(--accent); }
-    .btn-accent { background: linear-gradient(90deg,var(--accent), #5b21b6); color:white; border-radius:10px; padding:.55rem .9rem; display:inline-block; font-weight:600; }
+    /* accent styles */
+    .accent { color: var(--accent); text-shadow: 0 6px 22px rgba(124,58,237,0.08); }
+    .btn-accent { background: linear-gradient(90deg,var(--accent), #5b21b6); color:white; padding:.5rem .85rem; border-radius:10px; font-weight:600; display:inline-flex; gap:.5rem; align-items:center; }
 
-    /* Hero */
-    .hero-grid { position:relative; z-index:10; }
-    .hero-title { font-weight:800; letter-spacing:-0.02em; color: #e6eef8; }
-    .hero-sub { color:var(--muted); }
+    /* nav */
+    header { position: sticky; top:0; z-index:40; background: linear-gradient(180deg, rgba(7,16,38,0.66), rgba(7,16,38,0.12)); backdrop-filter: blur(6px); border-bottom:1px solid rgba(255,255,255,0.02); }
+    .nav-link { color:#cbd5e1; padding:.4rem .6rem; border-radius:8px; font-weight:600; font-size:.95rem; }
+    .nav-link.active { background: linear-gradient(90deg, rgba(124,58,237,0.12), rgba(0,229,255,0.02)); color: #fff; border:1px solid rgba(124,58,237,0.12); }
 
-    /* Nav small */
-    header { position:sticky; top:0; z-index:30; background: linear-gradient(180deg, rgba(7,16,38,0.6), rgba(7,16,38,0.18)); backdrop-filter: blur(6px); border-bottom:1px solid rgba(255,255,255,0.02); }
-    .nav-link { color: #cbd5e1; padding:.4rem .6rem; border-radius:8px; font-weight:600; font-size:.95rem; }
-    .nav-link.active { background: linear-gradient(90deg, rgba(124,58,237,0.12), rgba(0,229,255,0.02)); box-shadow: inset 0 0 10px rgba(124,58,237,0.03); color:#fff; border:1px solid rgba(124,58,237,0.12); }
+    /* progress bar */
+    #progress { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, #7c3aed, #00e5ff); width: 0%; z-index:50; box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
 
-    /* Skills radial */
-    .radial { width:96px; height:96px; display:grid; place-items:center; border-radius:14px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); }
-    .tech-chip { padding:.45rem .7rem; border-radius:999px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); font-weight:600; font-size:.78rem; cursor:pointer; transition: transform .18s ease, box-shadow .18s; }
-    .tech-chip:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 12px 30px rgba(2,6,23,0.45); }
+    /* hero */
+    .hero-title { font-weight: 800; letter-spacing:-0.01em; }
+    .typewriter { color: #bfe7ff; font-weight:600; }
 
-    /* Project tilt effect */
-    .proj { transform-style: preserve-3d; transition: transform .28s cubic-bezier(.2,.9,.3,1); }
-    .proj:hover { transform: perspective(900px) rotateX(3deg) rotateY(-6deg) translateY(-6px); }
+    /* tech cards */
+    .tech-card { border-radius:14px; padding: .8rem; transition: transform .18s ease, box-shadow .18s ease; border: 1px solid rgba(255,255,255,0.04); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
+    .tech-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: var(--glow); }
 
-    /* Responsive tweaks */
-    @media (max-width:768px){
-      .line { display:none; }
-      .nav-link { padding:.35rem .45rem; font-size:.9rem; }
+    /* project modal */
+    .modal-backdrop { position: fixed; inset:0; background: rgba(2,6,23,0.6); backdrop-filter: blur(4px); display: grid; place-items: center; z-index:70; }
+    .modal { max-width: 880px; width: 95%; }
+
+    /* Vault */
+    .vault-card { transition: transform .18s ease, box-shadow .18s; border-radius:12px; }
+    .vault-card:hover { transform: translateY(-6px); box-shadow: 0 18px 46px rgba(2,6,23,0.45); }
+
+    /* small responsive tweaks */
+    @media (max-width:880px){
+      .hero-title { font-size: 1.6rem; }
     }
 
-    /* focus outlines */
-    a:focus, button:focus, input:focus, textarea:focus { outline: 3px solid rgba(124,58,237,0.18); outline-offset:2px; }
-
-    /* footer */
-    footer a { color:var(--muted); text-decoration:underline; }
+    /* accessible focus state */
+    a:focus, button:focus, input:focus, textarea:focus { outline: 3px solid rgba(124,58,237,0.18); outline-offset: 2px; }
   </style>
 </head>
-
 <body>
-  <!-- animated background lines -->
-  <div class="bg-lines" aria-hidden="true">
-    <div class="line l1" style="top:10%; left:-50%;"></div>
-    <div class="line l2" style="top:30%; left:-40%;"></div>
-    <div class="line l3" style="top:65%; left:-30%;"></div>
-  </div>
+  <div id="progress" aria-hidden="true"></div>
+  <!-- particles canvas -->
+  <div id="tsparticles" aria-hidden="true"></div>
 
-  <!-- NAV -->
+  <!-- header / nav -->
   <header class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="#hero" class="text-lg font-semibold">Abhijit Rai</a>
-
-    <nav id="topnav" class="hidden md:flex gap-3">
+    <nav id="topnav" class="hidden md:flex gap-3" role="navigation" aria-label="Main navigation">
       <a class="nav-link" href="#projects">Projects</a>
-      <a class="nav-link" href="#skills">Skills</a>
+      <a class="nav-link" href="#tech-stack">Tech</a>
       <a class="nav-link" href="#about">About</a>
       <a class="nav-link" href="#education">Education</a>
       <a class="nav-link" href="#experience">Experience</a>
-      <a class="nav-link" href="#featured">Featured</a>
+      <a class="nav-link" href="#certs">Certs</a>
       <a class="nav-link" href="#contact">Contact</a>
     </nav>
 
-    <div class="md:hidden">
-      <button id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" class="p-2 rounded-md text-slate-200">☰</button>
+    <div class="flex items-center gap-3">
+      <a href="./assests/resume.pdf" class="btn-accent" title="Download Resume">Resume</a>
+      <button id="menuBtn" class="md:hidden p-2 text-slate-200">☰</button>
     </div>
   </header>
 
-  <!-- MOBILE MENU -->
+  <!-- mobile menu -->
   <div id="mobileMenu" class="md:hidden max-w-6xl mx-auto px-6 hidden">
     <nav class="flex flex-col gap-2 py-2">
       <a class="nav-link" href="#projects">Projects</a>
-      <a class="nav-link" href="#skills">Skills</a>
+      <a class="nav-link" href="#tech-stack">Tech</a>
       <a class="nav-link" href="#about">About</a>
       <a class="nav-link" href="#education">Education</a>
       <a class="nav-link" href="#experience">Experience</a>
-      <a class="nav-link" href="#featured">Featured</a>
+      <a class="nav-link" href="#certs">Certs</a>
       <a class="nav-link" href="#contact">Contact</a>
     </nav>
   </div>
@@ -122,387 +108,767 @@
   <main class="max-w-6xl mx-auto px-6 pb-24 relative z-10">
 
     <!-- HERO -->
-    <section id="hero" class="hero-grid pt-12 grid md:grid-cols-3 gap-8 items-center">
-      <div class="md:col-span-2">
-        <h1 class="hero-title text-4xl md:text-5xl">Hi, I'm <span class="accent">Abhijit</span> — you can call me <span class="accent">Abhi</span>.</h1>
-        <p class="mt-4 hero-sub text-lg max-w-3xl">
-          Electronics & Telecommunication engineer in the making. I build systems at the hardware–software boundary: STM32 firmware, FPGA & SoC design, SDR pipelines, and AI-powered security tools. I like hard problems that need both soldering and code.
-        </p>
+    <section id="hero" class="pt-12 pb-8 grid md:grid-cols-3 gap-8 items-center relative" aria-label="Hero">
+      <div class="md:col-span-2 relative z-10">
+        <h1 class="hero-title text-4xl md:text-5xl">Hi, I'm <span class="accent">Abhijit</span> — (Abhi).</h1>
+        <p class="mt-4 text-lg text-slate-300 max-w-3xl">Electronics & Telecommunication engineer building at the hardware–software boundary: STM32 firmware, FPGA & SoC design, SDR pipelines, and AI-powered security tools.</p>
 
         <div class="mt-6 flex flex-wrap gap-3 items-center">
-          <a href="/resume.pdf" class="btn-accent">Download Resume</a>
-          <a href="https://github.com/aerostorm19" target="_blank" rel="noopener" class="px-4 py-2 rounded-lg glass text-sm">GitHub</a>
-          <a href="https://www.linkedin.com/in/abhijit-rai-163214280" target="_blank" rel="noopener" class="px-4 py-2 rounded-lg glass text-sm">LinkedIn</a>
+          <a href="./assests/resume.pdf" class="btn-accent" aria-label="Download resume">
+            <svg width="16" height="16" viewBox="0 0 24 24" class="inline-block"><path fill="currentColor" d="M5 20h14v-2H5v2zM13 4h2v6h3l-4 5-4-5h3V4z"/></svg>
+            Resume
+          </a>
+          <a href="https://github.com/aerostorm19" class="glass px-3 py-2 rounded-lg text-sm" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com/in/abhijit-rai-163214280" class="glass px-3 py-2 rounded-lg text-sm" target="_blank" rel="noopener">LinkedIn</a>
         </div>
 
-        <div class="mt-6 flex flex-wrap gap-3 text-xs text-slate-300">
-          <span class="px-2 py-1 glass rounded">STM32</span>
-          <span class="px-2 py-1 glass rounded">RISC-V</span>
-          <span class="px-2 py-1 glass rounded">Verilog</span>
-          <span class="px-2 py-1 glass rounded">Python</span>
-          <span class="px-2 py-1 glass rounded">FreeRTOS</span>
+
+        <!-- quick tech tags -->
+        <div class="mt-6 flex flex-wrap gap-2 text-xs text-slate-300">
+          <span class="glass px-2 py-1 rounded">STM32</span>
+          <span class="glass px-2 py-1 rounded">RISC-V</span>
+          <span class="glass px-2 py-1 rounded">FPGA</span>
+          <span class="glass px-2 py-1 rounded">SDR</span>
+          <span class="glass px-2 py-1 rounded">ML</span>
         </div>
       </div>
 
-      <div class="flex justify-center md:justify-end mt-6 md:mt-0">
-        <div class="w-44 h-44 md:w-48 md:h-48 rounded-xl overflow-hidden ring-1 ring-white/5 card-hover">
-          <!-- Replace later -->
-          <img src="https://avatars.githubusercontent.com/u/0?v=4" alt="Abhijit profile" class="w-full h-full object-cover" />
+      <div class="flex justify-center md:justify-end mt-6 md:mt-0 relative z-10">
+        <div class="w-44 h-44 md:w-52 md:h-52 rounded-2xl overflow-hidden ring-1 ring-white/5 card-hover glass">
+          <!-- placeholder profile image -->
+          <img id="profileImg" src=".//assests/me.jpg" alt="Profile image" class="w-full h-full object-cover" />
         </div>
       </div>
     </section>
-
-    <!-- Random Dev Quote Section -->
-<div class="quote-container my-6 p-4 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-400 text-white text-center shadow-lg">
-  <h3 class="text-lg font-semibold mb-2">💻 Random Dev Quote</h3>
-  <img id="dev-quote" src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical" 
-       alt="Random Developer Quote" class="mx-auto rounded-md shadow-md" />
-  <button id="refresh-quote" class="mt-3 px-4 py-2 bg-white text-purple-700 font-bold rounded hover:bg-purple-100 transition">
-    Refresh
-  </button>
-</div>
-
-<script>
-  const quoteImg = document.getElementById('dev-quote');
-  const refreshBtn = document.getElementById('refresh-quote');
-
-  refreshBtn.addEventListener('click', () => {
-    // Add a timestamp to bypass cache and get a new quote
-    quoteImg.src = `https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical&t=${new Date().getTime()}`;
-  });
-</script>
-
-
-    <!-- Snake animation -->
-        <div class="mt-4 flex justify-center">
-          <img src="https://profile-readme-generator.com/assets/snake.svg" alt="Snake animation">
-        </div>
-      </div>
     
-    <!-- Projects -->
-    <section id="projects" class="mt-16">
-      <div class="flex items-center justify-between">
-        <h2 class="text-2xl font-semibold">Projects</h2>
-        <div class="text-sm text-slate-400">Selected work across embedded, FPGA, and security</div>
+    <div class="mt-6 glass p-4">
+        <h4 class="font-semibold mb-3">Random Dev Quote</h4>
+        <img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical" alt="random quote" />
+      </div>
+    </section>
+        <!-- ================== ABOUT ME SECTION ================== -->
+    <section id="about" class="relative py-20 bg-black text-gray-200 overflow-hidden">
+      <div class="max-w-6xl mx-auto px-6 lg:px-12 relative z-10">
+        <h2 class="text-4xl font-extrabold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-pulse">
+          About Me
+        </h2>
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+          
+          <!-- Left side: text -->
+          <div class="space-y-6">
+            <p class="text-lg leading-relaxed text-gray-300">
+              I’m <span class="font-bold text-cyan-400">Abhijit Rai</span>, an <span class="text-purple-400">Embedded Systems & FPGA Engineer</span> with a strong focus on 
+              <span class="text-blue-400">hardware-software co-design, SDR, IoT communication, and system security</span>. 
+              My work bridges the gap between digital logic design and intelligent software, 
+              delivering high-performance and energy-efficient systems.
+            </p>
+
+            <p class="text-lg leading-relaxed text-gray-300">
+              I thrive on building <span class="text-cyan-400">low-level systems</span> that push hardware limits, 
+              crafting <span class="text-purple-400">secure boot flows, FPGA accelerators, and SoC prototypes</span>. 
+              At the same time, I’ve explored <span class="text-blue-400">AI/ML for embedded platforms, blockchain security, and full-stack apps</span>, 
+              making me a versatile engineer who can design across layers.
+            </p>
+
+            <p class="text-lg leading-relaxed text-gray-300">
+              Beyond projects, I’ve <span class="font-bold text-cyan-400">mentored students</span>, organized large-scale hackathons, 
+              and contributed to open-source. My mission? To engineer systems that are 
+              <span class="text-purple-400">efficient, scalable, and secure</span> while solving real-world challenges.
+            </p>
+
+            <div class="flex gap-4 mt-6">
+              <a href="#skills" class="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg shadow-lg shadow-cyan-500/30 hover:shadow-cyan-400/60 text-white font-semibold transition transform hover:scale-105">
+                Explore My Skills
+              </a>
+              <a href="#projects" class="px-6 py-3 border border-cyan-400 rounded-lg text-cyan-400 hover:bg-cyan-400/10 hover:scale-105 transition font-semibold">
+                View My Work
+              </a>
+            </div>
+          </div>
+
+          <!-- Right side: futuristic card -->
+          <div class="relative">
+            <div class="bg-gradient-to-br from-cyan-900/20 via-blue-800/10 to-purple-900/20 border border-cyan-500/30 rounded-2xl p-8 backdrop-blur-lg shadow-xl hover:shadow-cyan-500/50 transition">
+              <h3 class="text-xl font-bold text-cyan-400 mb-4">What I Do</h3>
+              <ul class="space-y-3 text-gray-300">
+                <li>FPGA Design (Verilog, VHDL, SoCs with NIOS II)</li>
+                <li>SDR & IoT Communication (low-power PHYs)</li>
+                <li>Embedded Security (Secure Boot, Crypto)</li>
+                <li>Full-Stack Development (Next.js, APIs, AI)</li>
+                <li>AI for Systems (ML-accelerated pipelines)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
       </div>
 
-      <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <!-- Project cards -->
-        <article class="proj glass p-5 card-hover">
-          <div class="flex items-start justify-between">
-            <h3 class="font-semibold">GLOFzilla — Early Warning System</h3>
-            <div class="text-xs text-slate-400">SIH Finalist 2024</div>
+      <!-- subtle HUD particle overlay -->
+      <div id="aboutParticles" class="absolute inset-0 z-0"></div>
+    </section>
+
+    <script>
+      tsParticles.load("aboutParticles", {
+        background: { color: "transparent" },
+        particles: {
+          number: { value: 30 },
+          color: { value: ["#06b6d4", "#3b82f6", "#a855f7"] },
+          shape: { type: "circle" },
+          opacity: { value: 0.5 },
+          size: { value: 2 },
+          move: { enable: true, speed: 1, direction: "none", outModes: "out" },
+          links: { enable: true, color: "#3b82f6", opacity: 0.3 }
+        },
+        interactivity: {
+          events: { onHover: { enable: true, mode: "repulse" } }
+        },
+        fullScreen: { enable: false }
+      });
+    </script>
+
+        <!-- Timeline: Education & Experience -->
+      <section id="education" class="mt-12">
+        <h2 class="text-3xl font-semibold">Education & Experience</h2>
+        <div class="mt-6 grid md:grid-cols-2 gap-6">
+          
+          <!-- Education -->
+          <div class="glass p-4">
+            <h4 class="font-semibold mb-3">Education</h4>
+            <div class="mt-3 text-sm text-slate-300 space-y-3">
+              <div>
+                <strong>Army Institute of Technology, Pune</strong><br>
+                <span class="font-semibold">B.E. Electronics & Telecommunication</span> — <span class="font-bold">Aug 2023 - Present</span><br>
+                GPA: 3.4/4
+              </div>
+              <div>
+                <strong>IIT Madras</strong><br>
+                <span class="font-semibold">B.S. in Data Science and Its Applications Foundation</span> — <span class="font-bold">2023 - 2024</span>
+              </div>
+              <div>
+                <strong>Kendriya Vidyalaya</strong><br>
+                <span class="font-semibold">Secondary and Higher Secondary Education</span>
+              </div>
+            </div>
           </div>
-          <p class="mt-3 text-slate-300 text-sm">Predicting Glacial Lake Outburst Floods using edge telemetry + satellite analytics and alert workflows.</p>
-          <div class="mt-4 flex gap-2 items-center">
-            <a class="text-sm underline" href="#">Repo</a>
-            <a class="text-sm underline" href="https://x.com/IaSouthern/status/1864543340655411416" target="_blank" rel="noopener">Press</a>
+
+          <!-- Experience -->
+          <div class="glass p-4">
+            <h4 class="font-semibold mb-3">Experience</h4>
+            <div class="mt-3 text-sm text-slate-300 space-y-3">
+              <div>
+                <strong>Undergraduate Research Assistant</strong> — <span class="font-bold">Jan 2025 - Apr 2025</span><br>
+                Project: ML-Based Web App Firewall
+              </div>
+              <div>
+                <strong>Undergraduate Research Assistant</strong> — <span class="font-bold">May 2025 - Present</span><br>
+                Project: SDR Transceiver
+              </div>
+              <div>
+                <strong>Web Developer, AIT OSS Team</strong> — <span class="font-bold">Aug 2023 - Present</span>
+              </div>
+            </div>
           </div>
-        </article>
 
-        <article class="proj glass p-5 card-hover">
-          <h3 class="font-semibold">ML-Based Web App Firewall</h3>
-          <p class="mt-3 text-slate-300 text-sm">Anomaly detection & automated response system for API security.</p>
-          <div class="mt-3 text-xs text-slate-400">Python • FastAPI • Docker</div>
-        </article>
+        </div>
+      </section>
 
-        <article class="proj glass p-5 card-hover">
-          <h3 class="font-semibold">AI Smart Contract Auditor</h3>
-          <p class="mt-3 text-slate-300 text-sm">LLM-assisted vulnerability scanning with prioritized fixes (npm + web app).</p>
-          <div class="mt-3 text-xs text-slate-400">TypeScript • LLM • Blockchain</div>
-        </article>
 
-        <article class="proj glass p-5 card-hover">
-          <h3 class="font-semibold">Secure Boot — Root of Trust (STM32)</h3>
-          <p class="mt-3 text-slate-300 text-sm">Chain of trust for MCU firmware authentication and secure updates.</p>
-          <div class="mt-3 text-xs text-slate-400">STM32 • C • Crypto</div>
-        </article>
+          <!-- Small Interactive Features Row -->
+      <section class="mt-4 grid md:grid-cols-3 gap-4 items-stretch">
+        
+        <div class="glass p-4 flex items-center justify-between">
+          <div>
+            <div class="text-xs text-slate-400 uppercase tracking-wide">Featured</div>
+            <div class="font-semibold text-sm">SIH Finalist — GLOFzilla</div>
+          </div>
+          <div class="text-sm font-bold text-slate-400">2024</div>
+        </div>
 
-        <article class="proj glass p-5 card-hover">
-          <h3 class="font-semibold">5-Stage Pipelined RISC-V CPU</h3>
-          <p class="mt-3 text-slate-300 text-sm">SystemVerilog core with trap/syscall, MMU interface, and multiply/divide unit.</p>
-        </article>
+        <div class="glass p-4 flex items-center justify-between">
+          <div>
+            <div class="text-xs text-slate-400 uppercase tracking-wide">Research</div>
+            <div class="font-semibold text-sm">FPGA-Accelerated SDR</div>
+          </div>
+          <div class="text-sm font-bold text-slate-400">IoT PHY</div>
+        </div>
 
-        <article class="proj glass p-5 card-hover">
-          <h3 class="font-semibold">NIOS II SoC & Mixed-Signal on FPGA</h3>
-          <p class="mt-3 text-slate-300 text-sm">Custom SoC on DE10-Lite, PWM/ADC mixed-signal modules and device drivers.</p>
-        </article>
+        <div class="glass p-4 flex items-center justify-between">
+          <div>
+            <div class="text-xs text-slate-400 uppercase tracking-wide">Open Source</div>
+            <div class="font-semibold text-sm">Active Maintainer</div>
+          </div>
+          <div class="text-sm font-bold text-slate-400">GitHub</div>
+        </div>
+
+      </section>
+
+
+          <!-- Projects (Featured Builds) -->
+      <section id="projects" class="mt-12">
+        <div class="flex items-center justify-between">
+          <h2 class="text-3xl font-semibold">Featured Projects</h2>
+          <p class="text-slate-400">Top work across FPGA, Embedded & Security</p>
+        </div>
+
+        <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+          <!-- 1 -->
+          <article class="proj glass p-5 card-hover" data-project="fpga-sdr">
+            <h3 class="font-semibold text-lg">FPGA-Accelerated SDR <span class="font-bold">(IoT PHY)</span></h3>
+            <p class="mt-2 text-slate-300 text-sm">
+              Lightweight SDR PHY prototype that offloads baseband tasks to FPGA for <strong>low-power IoT communication</strong>.
+            </p>
+            <div class="mt-3 text-xs text-slate-400"><strong>Technologies:</strong> FPGA • SDR • HW–SW Co-Design</div>
+            <div class="mt-4 flex gap-2">
+              <a href="https://github.com/aerostorm19/Research-Proposal-FPGA-Accelerated-SDR-for-Low-Power-IoT-Communication" target="_blank" class="underline text-sm font-semibold">Repository</a>
+              <button class="text-sm font-semibold" data-open="fpga-sdr">Details</button>
+            </div>
+          </article>
+
+          <!-- 2 -->
+          <article class="proj glass p-5 card-hover" data-project="smart-glasses">
+            <h3 class="font-semibold text-lg">Smart Glasses <span class="font-bold">Visually Impaired</span></h3>
+            <p class="mt-2 text-slate-300 text-sm">
+              ESP-CAM + edge AI for <strong>real-time object detection</strong> with ultrasonic distance sensing & audio feedback.
+            </p>
+            <div class="mt-3 text-xs text-slate-400"><strong>Technologies:</strong> ESP32 • OpenCV • Embedded</div>
+            <div class="mt-4 flex gap-2">
+              <a href="https://github.com/aerostorm19/Smart-Glasses-for-Visually--Impaired" target="_blank" class="underline text-sm font-semibold">Repository</a>
+              <button class="text-sm font-semibold" data-open="smart-glasses">Details</button>
+            </div>
+          </article>
+
+          <!-- 3 -->
+          <article class="proj glass p-5 card-hover" data-project="ml-waf">
+            <h3 class="font-semibold text-lg">ML-Based <span class="font-bold">Web App Firewall</span></h3>
+            <p class="mt-2 text-slate-300 text-sm">
+              NLP-driven WAF for <strong>runtime API protection</strong> and inline anomaly detection.
+            </p>
+            <div class="mt-3 text-xs text-slate-400"><strong>Technologies:</strong> Python • FastAPI • ML</div>
+            <div class="mt-4 flex gap-2">
+              <a href="https://github.com/aerostorm19/ML-Based-Web-App-Firewall" target="_blank" class="underline text-sm font-semibold">Repository</a>
+              <button class="text-sm font-semibold" data-open="ml-waf">Details</button>
+            </div>
+          </article>
+
+          <!-- 4 -->
+          <article class="proj glass p-5 card-hover" data-project="sca">
+            <h3 class="font-semibold text-lg">AI <span class="font-bold">Smart Contract Auditor</span></h3>
+            <p class="mt-2 text-slate-300 text-sm">
+              LLM-assisted auditing tool that scans contracts, highlights <strong>vulnerabilities</strong>, and suggests fixes.
+            </p>
+            <div class="mt-3 text-xs text-slate-400"><strong>Technologies:</strong> TypeScript • LLM • Blockchain</div>
+            <div class="mt-4 flex gap-2">
+              <a href="https://github.com/aerostorm19/Smart-Contract-Auditor" target="_blank" class="underline text-sm font-semibold">Repository</a>
+              <button class="text-sm font-semibold" data-open="sca">Details</button>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+
+    <!-- Tech Stack (futuristic cards with logos) -->
+    <section id="tech-stack" class="mt-12">
+      <div class="flex items-center justify-between">
+        <h2 class="text-3xl font-semibold">Tech Stack</h2>
+        <div class="text-slate-400">Languages, Embedded, Tools & Domains</div>
+      </div>
+
+      <div class="mt-6 grid lg:grid-cols-4 gap-6">
+        <!-- Languages -->
+        <div class="tech-card glass p-5">
+          <h4 class="font-semibold mb-3">Languages</h4>
+          <div class="flex flex-wrap gap-2">
+            <img src="https://img.shields.io/badge/C-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white" alt="C badge" />
+            <img src="https://img.shields.io/badge/C%2B%2B-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++ badge" />
+            <img src="https://img.shields.io/badge/Python-3670A0.svg?style=for-the-badge&logo=python&logoColor=ffdd54" alt="Python" />
+            <img src="https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black" alt="JS" />
+            <img src="https://img.shields.io/badge/Verilog-%23000000.svg?style=for-the-badge&logo=verilog&logoColor=white" alt="Verilog" />
+            <img src="https://img.shields.io/badge/VHDL-%23000000.svg?style=for-the-badge&logo=vhdl&logoColor=white" alt="VHDL" />
+            <img src="https://img.shields.io/badge/SQL-%230070C0.svg?style=for-the-badge&logo=postgresql&logoColor=white" alt="SQL" />
+          </div>
+        </div>
+
+        <!-- Embedded & Hardware -->
+        <div class="tech-card glass p-5">
+          <h4 class="font-semibold mb-3">Embedded & Hardware</h4>
+          <div class="flex flex-wrap gap-2">
+            <img src="https://img.shields.io/badge/STM32-%23000000.svg?style=for-the-badge&logo=arm&logoColor=white" alt="STM32" />
+            <img src="https://img.shields.io/badge/NIOS%20II-%23000000.svg?style=for-the-badge&logo=intel&logoColor=white" alt="NIOS II" />
+            <img src="https://img.shields.io/badge/Quartus-%23000000.svg?style=for-the-badge&logo=intel&logoColor=white" alt="Quartus" />
+            <img src="https://img.shields.io/badge/Vivado-%23000000.svg?style=for-the-badge&logo=xilinx&logoColor=white" alt="Vivado" />
+            <img src="https://img.shields.io/badge/Keil-%23000000.svg?style=for-the-badge&logo=arm&logoColor=white" alt="Keil" />
+            <img src="https://img.shields.io/badge/FreeRTOS-%23000000.svg?style=for-the-badge&logo=freertos&logoColor=white" alt="FreeRTOS" />
+          </div>
+        </div>
+
+        <!-- Software & Tools -->
+        <div class="tech-card glass p-5">
+          <h4 class="font-semibold mb-3">Software & Tools</h4>
+          <div class="flex flex-wrap gap-2">
+            <img src="https://img.shields.io/badge/Git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white" alt="Git" />
+            <img src="https://img.shields.io/badge/Docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
+            <img src="https://img.shields.io/badge/Linux-%23000000.svg?style=for-the-badge&logo=linux&logoColor=white" alt="Linux" />
+            <img src="https://img.shields.io/badge/VSCode-%23007ACC.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white" alt="VSCode" />
+            <img src="https://img.shields.io/badge/Next.js-%23000000.svg?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
+          </div>
+        </div>
+
+        <!-- Specialized Domains -->
+        <div class="tech-card glass p-5">
+          <h4 class="font-semibold mb-3">Specialized Domains</h4>
+          <div class="flex flex-wrap gap-2">
+            <img src="https://img.shields.io/badge/FPGA-%23000000.svg?style=for-the-badge&logo=xilinx&logoColor=white" alt="FPGA" />
+            <img src="https://img.shields.io/badge/SDR-%23000000.svg?style=for-the-badge&logo=gnuradio&logoColor=white" alt="SDR" />
+            <img src="https://img.shields.io/badge/Secure%20Boot-%23000000.svg?style=for-the-badge" alt="Secure Boot" />
+            <img src="https://img.shields.io/badge/RISC-V-%23000000.svg?style=for-the-badge" alt="RISC-V" />
+            <img src="https://img.shields.io/badge/ML%20for%20Systems-%23000000.svg?style=for-the-badge" alt="ML for Systems" />
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Skills -->
-    <!-- Tech Stack Section -->
-<section id="tech-stack" class="mt-20">
-  <div class="flex items-center justify-between">
-    <h2 class="text-2xl font-semibold">💻 Tech Stack</h2>
-    <div class="text-sm text-slate-400">Tools, languages & platforms I use</div>
+      <!-- Certifications & Achievements -->
+<section id="certs" class="mt-12">
+  <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
+    <h2 class="text-3xl font-semibold">Certifications & Achievements</h2>
+    <div class="text-slate-400 text-sm">Professional learning & recognitions</div>
   </div>
 
-  <div class="mt-8 grid lg:grid-cols-2 gap-12">
-    <!-- Left: Core Skills -->
-    <div class="glass p-6 rounded-xl shadow-lg space-y-6">
-      <h3 class="text-lg font-semibold mb-2">🧱 Core Skills</h3>
-
-      <!-- Hardware & Embedded Systems -->
-      <div>
-        <h4 class="font-semibold text-purple-300 mb-2">🔧 Hardware & Embedded Systems</h4>
-        <div class="flex flex-wrap gap-2">
-          <img src="https://img.shields.io/badge/verilog-%23000000.svg?style=for-the-badge&logo=verilog&logoColor=white" alt="Verilog">
-          <img src="https://img.shields.io/badge/systemverilog-%23000000.svg?style=for-the-badge&logo=verilog&logoColor=white" alt="SystemVerilog">
-          <img src="https://img.shields.io/badge/Embedded%20C-%23000000.svg?style=for-the-badge&logo=c&logoColor=white" alt="Embedded C">
-          <img src="https://img.shields.io/badge/STM32-%23000000.svg?style=for-the-badge&logo=arm&logoColor=white" alt="STM32">
-          <img src="https://img.shields.io/badge/FreeRTOS-%23000000.svg?style=for-the-badge&logo=freertos&logoColor=white" alt="FreeRTOS">
-          <img src="https://img.shields.io/badge/ARM%20Assembly-%23000000.svg?style=for-the-badge&logo=arm&logoColor=white" alt="ARM Assembly">
-          <img src="https://img.shields.io/badge/Quartus-%23000000.svg?style=for-the-badge&logo=intel&logoColor=white" alt="Quartus">
-          <img src="https://img.shields.io/badge/Vivado-%23000000.svg?style=for-the-badge&logo=xilinx&logoColor=white" alt="Vivado">
-        </div>
-      </div>
-
-      <!-- Communication Protocols -->
-      <div>
-        <h4 class="font-semibold text-purple-300 mb-2">📡 Communication Protocols</h4>
-        <div class="flex flex-wrap gap-2">
-          <img src="https://img.shields.io/badge/UART-%23000000.svg?style=for-the-badge&logo=serial&logoColor=white" alt="UART">
-          <img src="https://img.shields.io/badge/SPI-%23000000.svg?style=for-the-badge&logo=serial&logoColor=white" alt="SPI">
-          <img src="https://img.shields.io/badge/I2C-%23000000.svg?style=for-the-badge&logo=serial&logoColor=white" alt="I2C">
-          <img src="https://img.shields.io/badge/CAN%202.0B-%23000000.svg?style=for-the-badge&logo=vector&logoColor=white" alt="CAN 2.0B">
-          <img src="https://img.shields.io/badge/PWM-%23000000.svg?style=for-the-badge&logo=serial&logoColor=white" alt="PWM">
-          <img src="https://img.shields.io/badge/ADC-%23000000.svg?style=for-the-badge&logo=serial&logoColor=white" alt="ADC">
-        </div>
-      </div>
+  <div class="mt-6 grid md:grid-cols-2 gap-6">
+    <!-- Certifications -->
+    <div class="glass p-6 space-y-3">
+      <h4 class="font-semibold text-lg">Certifications</h4>
+      <ul class="list-disc list-inside text-sm text-slate-300 space-y-2">
+        <li><strong>Chip-Based VLSI Design for Industrial Applications</strong> — Coursera</li>
+        <li><strong>Introduction to Embedded Systems Software & Development Environments</strong> — Coursera</li>
+        <li><strong>PCB Design with Eagle</strong> — Coursera</li>
+        <li><strong>Arduino Course for Beginners</strong> — Udemy</li>
+      </ul>
     </div>
 
-    <!-- Right: Languages, Tools, Cloud, Frontend -->
-    <div class="glass p-6 rounded-xl shadow-lg space-y-6">
-      <!-- Programming Languages -->
-      <div>
-        <h4 class="font-semibold text-purple-300 mb-2">💻 Programming Languages</h4>
-        <div class="flex flex-wrap gap-2">
-          <img src="https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white" alt="C">
-          <img src="https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++">
-          <img src="https://img.shields.io/badge/python-3670A0.svg?style=for-the-badge&logo=python&logoColor=ffdd54" alt="Python">
-          <img src="https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white" alt="Rust">
-          <img src="https://img.shields.io/badge/GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white" alt="GraphQL">
-        </div>
-      </div>
-
-      <!-- Cloud & DevOps -->
-      <div>
-        <h4 class="font-semibold text-purple-300 mb-2">☁️ Cloud & DevOps Tools</h4>
-        <div class="flex flex-wrap gap-2">
-          <img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" alt="AWS">
-          <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
-          <img src="https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Kubernetes">
-          <img src="https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7" alt="Netlify">
-          <img src="https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel">
-        </div>
-      </div>
-
-      <!-- Frontend & Web -->
-      <div>
-        <h4 class="font-semibold text-purple-300 mb-2">🖥️ Frontend & Web Development</h4>
-        <div class="flex flex-wrap gap-2">
-          <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React">
-          <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS">
-          <img src="https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white" alt="Prisma">
-          <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase">
-          <img src="https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase&logoColor=white" alt="Firebase">
-        </div>
-      </div>
-
-      <!-- Tools & Misc -->
-      <div>
-        <h4 class="font-semibold text-purple-300 mb-2">📊 Tools & Miscellaneous</h4>
-        <div class="flex flex-wrap gap-2">
-          <img src="https://img.shields.io/badge/GNU%20Radio-%23000000.svg?style=for-the-badge&logo=gnuradio&logoColor=white" alt="GNU Radio">
-          <img src="https://img.shields.io/badge/MATLAB-%23000000.svg?style=for-the-badge&logo=mathworks&logoColor=white" alt="MATLAB">
-          <img src="https://img.shields.io/badge/Make-%23000000.svg?style=for-the-badge&logo=gnu&logoColor=white" alt="Make">
-          <img src="https://img.shields.io/badge/GDB-%23000000.svg?style=for-the-badge&logo=gnu&logoColor=white" alt="GDB">
-          <img src="https://img.shields.io/badge/Git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white" alt="Git">
-        </div>
-      </div>
+    <!-- Achievements -->
+    <div class="glass p-6 space-y-3">
+      <h4 class="font-semibold text-lg">Achievements</h4>
+      <ul class="list-disc list-inside text-sm text-slate-300 space-y-2">
+        <li><strong>SIH Finalist</strong> — Developed <em>GLOFzilla</em>, a disaster management solution</li>
+        <li><strong>Embedded Systems Lead</strong> — CEAR Robotics Club</li>
+        <li><strong>Event Organizer</strong> — Innerve Hackathon 8 & 9 (4,000+ participants) and launched <em>Startup Saga</em></li>
+        <li><strong>Mentorship</strong> — Guided students in embedded systems & cybersecurity</li>
+        <li><strong>Open Source Contributor</strong> — Contributed to libraries & community projects</li>
+      </ul>
     </div>
   </div>
 </section>
 
-    <!-- About -->
-    <section id="about" class="mt-16">
-      <h2 class="text-2xl font-semibold">About</h2>
-      <div class="mt-4 grid md:grid-cols-3 gap-6">
-        <div class="md:col-span-2 glass p-6">
-          <p class="text-slate-300 text-sm leading-relaxed">
-            Hi, I'm Abhijit. In India, friends call me "Abhi" — short and simple, like the code I try to write.
-            I'm a 3rd-year Electronics & Telecommunication student at the Army Institute of Technology, Pune.
-            I enjoy building things at the intersection of circuits, code, and curiosity — from crafting RISC-V CPU stages and SDR pipelines to designing fault-tolerant embedded controllers and ML-driven security tools.
-          </p>
 
-          <p class="mt-4 text-slate-300 text-sm leading-relaxed">
-            Before university I pulled gadgets apart to see how they worked. That curiosity became engineering: STM32 control stacks for autonomous drones, FPGA SoCs, and large-scale hackathon systems. I like seeing small experiments scale into real impact — which is how GLOFzilla and ML-WAF came to life.
-          </p>
 
-          <p class="mt-4 text-slate-300 text-sm leading-relaxed">
-            Outside engineering, I sketch, play basketball, and mentor juniors. I enjoy the mix of building, telling the story of what I built, and shipping it so others can use it.
-          </p>
-        </div>
+    <!-- GitHub Stats & Extras -->
+    <section id="github" class="mt-12">
+      <div class="flex items-center justify-between">
+        <h2 class="text-3xl font-semibold">GitHub Stats & Activity</h2>
+        <div class="text-slate-400 text-sm">Activity snapshots</div>
+      </div>
 
-        <aside class="glass p-6">
-          <h4 class="font-semibold mb-2">Leadership & Clubs</h4>
-          <ul class="text-sm text-slate-300 list-disc list-inside space-y-1">
-            <li>Embedded Lead — CEAR Robotics Club</li>
-            <li>Joint Secretary — OSS Club & E-Cell</li>
-            <li>Organized Innerve Hackathon (4k+ participants)</li>
-          </ul>
-
-          <h4 class="font-semibold mt-4 mb-2">Contact</h4>
-          <div class="text-sm text-slate-300 space-y-1">
-            <div>Email: <a href="mailto:abhi160407@gmail.com" class="underline text-slate-200">abhi160407@gmail.com</a></div>
-            <div>GitHub: <a href="https://github.com/aerostorm19" target="_blank" rel="noopener" class="underline">aerostorm19</a></div>
+      <div class="mt-6 grid md:grid-cols-2 gap-6">
+        <div class="glass p-6">
+          <h4 class="font-semibold mb-3">Contribution Summary</h4>
+          <div class="grid gap-2">
+            <img src="https://github-readme-stats.vercel.app/api?username=aerostorm19&theme=ocean_dark&hide_border=true&include_all_commits=false&count_private=false" alt="GitHub stats" />
+            <img src="https://nirzak-streak-stats.vercel.app/?user=aerostorm19&theme=ocean_dark&hide_border=true" alt="streak" class="mt-2" />
+            <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=aerostorm19&theme=ocean_dark&hide_border=true&include_all_commits=false&count_private=false&layout=compact" alt="top langs" class="mt-2" />
           </div>
-        </aside>
-      </div>
-    </section>
-
-    <!-- Education -->
-    <section id="education" class="mt-16">
-      <h2 class="text-2xl font-semibold">Education</h2>
-      <div class="mt-4 grid md:grid-cols-2 gap-4">
-        <div class="glass p-4">
-          <h4 class="font-semibold">Army Institute of Technology, Pune</h4>
-          <p class="text-sm text-slate-400">B.E. — Electronics & Telecommunication (2023 - 2027)</p>
         </div>
-        <div class="glass p-4">
-          <h4 class="font-semibold">IIT Madras — Exchange Program</h4>
-          <p class="text-sm text-slate-400">Specialization in Embedded Systems & FPGA (Sep 2023 - Jul 2024)</p>
+
+        <div class="glass p-6">
+          <h4 class="font-semibold mb-3">Community & Popularity</h4>
+          <img src="https://github-contributor-stats.vercel.app/api?username=aerostorm19&limit=5&theme=dark&combine_all_yearly_contributions=true" alt="top contributors" />
+          <div class="mt-3 text-sm text-slate-400">Visitor Count & Top Repos</div>
+          <div class="mt-2">
+            <img src="https://visitcount.itsvg.in/api?id=aerostorm19&icon=0&color=0" alt="visit counter" />
+          </div>
         </div>
       </div>
-    </section>
 
-    <!-- Experience -->
-    <section id="experience" class="mt-16">
-      <h2 class="text-2xl font-semibold">Experience</h2>
-      <div class="mt-4 space-y-4">
-        <div class="glass p-4">
-          <h4 class="font-semibold">Undergraduate Research Assistant — ML-Based Web App Firewall</h4>
-          <p class="text-sm text-slate-400">Jan 2025 - Apr 2025 — AIT Pune</p>
+    <!-- All Projects / The Vault -->
+      <section id="vault" class="mt-12">
+        <div class="flex items-center justify-between">
+          <h2 class="text-3xl font-semibold">The Vault — All Repos</h2>
+          <div class="text-slate-400">Filter & explore everything</div>
         </div>
-        <div class="glass p-4">
-          <h4 class="font-semibold">Undergraduate Research Assistant — SDR Transceiver</h4>
-          <p class="text-sm text-slate-400">Dec 2024 - Present — AIT Pune</p>
-        </div>
-        <div class="glass p-4">
-          <h4 class="font-semibold">Web Developer — AIT OSS Team</h4>
-          <p class="text-sm text-slate-400">Aug 2023 - Present — Open source & web projects</p>
-        </div>
-      </div>
-    </section>
 
-    <!-- Featured -->
-    <section id="featured" class="mt-16">
-      <h2 class="text-2xl font-semibold">Featured</h2>
-      <div class="mt-4 grid md:grid-cols-2 gap-4">
-        <div class="glass p-4">
-          <h4 class="font-semibold">Smart India Hackathon</h4>
-          <p class="text-sm text-slate-400">Finalist with GLOFzilla — early warning system for glacial lake outburst floods.</p>
+        <!-- filter tabs -->
+        <div class="mt-4 flex gap-2 flex-wrap items-center">
+          <button class="glass px-3 py-2 text-sm filter-btn active" data-filter="all">All</button>
+          <button class="glass px-3 py-2 text-sm filter-btn" data-filter="fpga">FPGA</button>
+          <button class="glass px-3 py-2 text-sm filter-btn" data-filter="embedded">Embedded</button>
+          <button class="glass px-3 py-2 text-sm filter-btn" data-filter="web">Web / ML</button>
+          <button class="glass px-3 py-2 text-sm filter-btn" data-filter="security">Security</button>
         </div>
-        <div class="glass p-4">
-          <h4 class="font-semibold">Southern Command Feature</h4>
-          <p class="text-sm text-slate-400">Recognition for the team's contribution to disaster preparedness & tech solutions.</p>
-        </div>
-      </div>
-    </section>
 
-      <!-- Badges -->
-        <div class="mt-4 flex flex-wrap gap-2">
-          <a href="mailto:abhijitraiisme@gmail.com"><img src="https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white" alt="Email"></a>
-          <a href="https://linkedin.com/in/abhijit-rai-163214280"><img src="https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white" alt="LinkedIn"></a>
-          <a href="https://x.com/Abhijit60770464"><img src="https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white" alt="X"></a>
-          <a href="https://instagram.com/aerostorm19"><img src="https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white" alt="Instagram"></a>
-          <a href="https://medium.com/@abhi160407"><img src="https://img.shields.io/badge/Medium-12100E?logo=medium&logoColor=white" alt="Medium"></a>
+        <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" id="vaultGrid">
+
+          <a href="https://github.com/aerostorm19/Research-Proposal-FPGA-Accelerated-SDR-for-Low-Power-IoT-Communication" target="_blank" class="vault-card glass p-4 block" data-tags="fpga,embedded">
+            <h4 class="font-semibold">Research-Proposal-FPGA-Accelerated-SDR</h4>
+            <div class="text-xs text-slate-400 mt-1"><strong>FPGA • SDR • IoT</strong> — Prototype for low-power IoT communication with FPGA-accelerated baseband tasks.</div>
+          </a>
+
+          <a href="https://github.com/aerostorm19/Smart-Glasses-for-Visually--Impaired" target="_blank" class="vault-card glass p-4 block" data-tags="embedded,web">
+            <h4 class="font-semibold">Smart Glasses for Visually Impaired</h4>
+            <div class="text-xs text-slate-400 mt-1"><strong>ESP-CAM • OpenCV • Embedded</strong> Real-time object detection and audio feedback for visually impaired users.</div>
+          </a>
+
+          <a href="https://github.com/aerostorm19/Portfolio-website" target="_blank" class="vault-card glass p-4 block" data-tags="web">
+            <h4 class="font-semibold">Portfolio-website</h4>
+            <div class="text-xs text-slate-400 mt-1"><strong>TypeScript • Web</strong> — Personal portfolio showcasing projects, skills, and achievements.</div>
+          </a>
+
+          <a href="https://github.com/aerostorm19/New-EWS-GLOF-SIH-2024" target="_blank" class="vault-card glass p-4 block" data-tags="embedded,web,ml">
+            <h4 class="font-semibold">EWS-GLOF-SIH-2024</h4>
+            <div class="text-xs text-slate-400 mt-1"><strong>IoT • ML • GCP</strong> — Early warning system for floods with IoT sensors and ML-based alerts.</div>
+          </a>
+
+          <a href="https://github.com/aerostorm19/ML-Based-Web-App-Firewall" target="_blank" class="vault-card glass p-4 block" data-tags="web,security">
+            <h4 class="font-semibold">ML-Based-Web-App-Firewall</h4>
+            <div class="text-xs text-slate-400 mt-1"><strong>Python • Security</strong> — Runtime protection for APIs with ML-driven anomaly detection.</div>
+          </a>
+
+          <a href="https://github.com/aerostorm19/Smart-Contract-Auditor" target="_blank" class="vault-card glass p-4 block" data-tags="web,security">
+            <h4 class="font-semibold">Smart-Contract-Auditor</h4>
+            <div class="text-xs text-slate-400 mt-1"><strong>TypeScript • LLM</strong> — Audits smart contracts, highlights vulnerabilities, and suggests fixes.</div>
+          </a>
+
+          <a href="https://github.com/aerostorm19/System-on-a-Chip-with-NIOS-II" target="_blank" class="vault-card glass p-4 block" data-tags="fpga">
+            <h4 class="font-semibold">System-on-a-Chip-with-NIOS-II</h4>
+            <div class="text-xs text-slate-400 mt-1"><strong>Verilog • NIOS II • SoC</strong> — Custom soft-core SoC design with peripherals and embedded software support.</div>
+          </a>
+
+          <a href="https://github.com/aerostorm19/CAN-Bus-Communication-Between-STM32F407G-STM32F446RE" target="_blank" class="vault-card glass p-4 block" data-tags="embedded">
+            <h4 class="font-semibold">CAN-Bus-Communication (STM32)</h4>
+            <div class="text-xs text-slate-400 mt-1"><strong>STM32 • CAN • FreeRTOS</strong> — Reliable inter-STM32 communication via CAN bus with FreeRTOS integration.</div>
+          </a>
+
+          <a href="https://github.com/aerostorm19/Mixed-Signal-System-with-ADC-and-PWM" target="_blank" class="vault-card glass p-4 block" data-tags="fpga">
+            <h4 class="font-semibold">Mixed-Signal System (ADC+PWM)</h4>
+            <div class="text-xs text-slate-400 mt-1"><strong>Verilog • FPGA</strong> — ADC input and PWM output system implemented on FPGA for voltage measurement.</div>
+          </a>
+
+          <a href="https://github.com/aerostorm19/Software-for-the-NIOS-II-System" target="_blank" class="vault-card glass p-4 block" data-tags="fpga,embedded">
+            <h4 class="font-semibold">Software-for-the-NIOS-II-System</h4>
+            <div class="text-xs text-slate-400 mt-1"><strong>Embedded C • NIOS II</strong> — Embedded software for custom NIOS-II SoC handling peripherals and I/O.</div>
+          </a>
+
+          <a href="https://github.com/aerostorm19/Binary-Coded-Decimal-Adder" target="_blank" class="vault-card glass p-4 block" data-tags="fpga">
+            <h4 class="font-semibold">Binary-Coded-Decimal-Adder</h4>
+            <div class="text-xs text-slate-400 mt-1"><strong>VHDL • Quartus</strong> — BCD adder design and simulation using VHDL on Quartus platform.</div>
+          </a>
+
+          <a href="https://github.com/aerostorm19/scholarsync-resume-integration-Abhijit-Rai" target="_blank" class="vault-card glass p-4 block" data-tags="web,ml">
+            <h4 class="font-semibold">ScholarSync — Resume Integration</h4>
+            <div class="text-xs text-slate-400 mt-1"><strong>Next.js • AI</strong> — AI-powered resume integration for academic profiles.</div>
+          </a>
+
+          <a href="https://github.com/aerostorm19/DeepMRI-Detect-CNN-Based-Brain-MRI-Tumor-Detection" target="_blank" class="vault-card glass p-4 block" data-tags="ml">
+            <h4 class="font-semibold">DeepMRI-Detect (CNN)</h4>
+            <div class="text-xs text-slate-400 mt-1"><strong>Python • Deep Learning</strong> — CNN-based MRI tumor detection with high accuracy.</div>
+          </a>
+
         </div>
-    
-     <!-- GitHub Trophies -->
-        <div class="mt-4">
-          <img src="https://github-profile-trophy.vercel.app/?username=alamimran613&theme=radical&no-frame=false&no-bg=false&margin-w=4" alt="GitHub Trophies">
-        </div>
-    
+      </section>
+
     <!-- Contact -->
-    <section id="contact" class="mt-16">
-      <h2 class="text-2xl font-semibold">Get in touch</h2>
-      <p class="text-slate-400 mt-2 text-sm">Reach out for collaborations, mentorship or freelance embedded work. I typically respond within a few days.</p>
+    <section id="contact" class="mt-12">
+      <h2 class="text-3xl font-semibold">Get in Touch</h2>
+      <p class="text-slate-400 mt-2">Reach out for collaborations, mentorship or freelance embedded work.</p>
 
-      <form id="contactForm" class="mt-6 grid gap-3 max-w-2xl">
-        <div class="grid sm:grid-cols-2 gap-3">
-          <input name="name" required placeholder="Your name" class="p-3 rounded-lg bg-[#071428] border border-white/6" />
-          <input name="email" type="email" required placeholder="Your email" class="p-3 rounded-lg bg-[#071428] border border-white/6" />
+      <div class="mt-6 grid md:grid-cols-2 gap-6">
+        <form id="contactForm" class="glass p-6" aria-label="Contact form">
+          <div class="grid sm:grid-cols-2 gap-3">
+            <input name="name" required placeholder="Your name" class="p-3 rounded-lg bg-[#071428] border border-white/6" />
+            <input name="email" type="email" required placeholder="Your email" class="p-3 rounded-lg bg-[#071428] border border-white/6" />
+          </div>
+          <textarea name="message" rows="5" required placeholder="Message" class="mt-3 p-3 rounded-lg bg-[#071428] border border-white/6"></textarea>
+          <div class="mt-3 flex items-center gap-3">
+            <button type="submit" class="btn-accent">Send Message</button>
+            <div class="text-sm text-slate-400"></div>
+          </div>
+        </form>
+
+        <div class="glass p-6">
+          <h4 class="font-semibold">Contact & Socials</h4>
+          <p class="text-sm text-slate-300 mt-2">Email: <a href="mailto:abhijitraiisme@gmail.com" class="underline">abhijitraiisme@gmail.com</a></p>
+          <div class="mt-4 flex gap-2 flex-wrap">
+            <a href="https://github.com/aerostorm19" target="_blank" class="glass px-3 py-2 rounded">GitHub</a>
+            <a href="https://x.com/Abhijit60770464" target="_blank" class="glass px-3 py-2 rounded">X</a>
+            <a href="https://www.linkedin.com/in/abhijit-rai-163214280" target="_blank" class="glass px-3 py-2 rounded">LinkedIn</a>
+            <a href="https://instagram.com/aerostorm19" target="_blank" class="glass px-3 py-2 rounded">Instagram</a>
+          </div>
+
+          <div class="mt-6">
+            <h5 class="font-semibold">Resume QR</h5>
+            <p class="text-sm text-slate-400">Scan to download my resume</p>
+            <div class="mt-3">
+              <!-- placeholder QR (change to your resume URL) -->
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://github.com/aerostorm19" alt="QR resume" class="rounded" />
+            </div>
+          </div>
         </div>
-        <textarea name="message" rows="5" required placeholder="Message" class="p-3 rounded-lg bg-[#071428] border border-white/6"></textarea>
-        <div class="flex items-center gap-3">
-          <button type="submit" class="btn-accent">Send Message</button>
-          <div class="text-sm text-slate-400">Will integrate with EmailJS — form handler placeholder included in JS below.</div>
-        </div>
-      </form>
+      </div>
     </section>
 
   </main>
 
   <footer class="max-w-6xl mx-auto px-6 py-8 text-slate-500 text-sm text-center">
-    Built with intent • Hosted on GitHub Pages • <a href="https://github.com/aerostorm19" target="_blank" rel="noopener">aerostorm19</a>
+    Built with care • Hosted on GitHub Pages • <a href="https://github.com/aerostorm19" target="_blank" rel="noopener">aerostorm19</a>
   </footer>
 
+  <!-- Project details modal (hidden) -->
+  <div id="modalBackdrop" class="modal-backdrop hidden" aria-hidden="true">
+    <div class="modal glass p-6">
+      <div class="flex justify-between items-start">
+        <div>
+          <h3 id="modalTitle" class="text-xl font-semibold"></h3>
+          <div id="modalTags" class="text-xs text-slate-400 mt-1"></div>
+        </div>
+        <button id="modalClose" class="text-slate-200">✕</button>
+      </div>
+      <div id="modalBody" class="mt-4 text-sm text-slate-300"></div>
+      <div id="modalLinks" class="mt-4 flex gap-3"></div>
+    </div>
+  </div>
+
   <script>
-    // Mobile menu toggle
+    /***********
+     * tsParticles: Ironman HUD style
+     ***********/
+    tsParticles.load("tsparticles", {
+      fpsLimit: 60,
+      particles: {
+        number: { value: 60, density: { enable: true, area: 900 } },
+        color: { value: ["#7c3aed", "#00e5ff"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.7 },
+        size: { value: { min: 1, max: 4 } },
+        links: { enable: true, color: "#7c3aed", opacity: 0.12, distance: 140 },
+        move: { enable: true, speed: 0.8, outModes: "bounce" },
+        rotate: { value: 0, animation: { enable: true, speed: 6 } }
+      },
+      interactivity: {
+        detectsOn: "canvas",
+        events: { onHover: { enable: true, mode: "grab" }, onClick: { enable: true, mode: "push" }, resize: true },
+        modes: { grab: { distance: 160, links: { opacity: 0.2 } }, push: { quantity: 3 } }
+      },
+      detectRetina: true,
+      background: { color: "transparent" }
+    });
+
+    /***********
+     * Typewriter text
+     ***********/
+    const typeEl = document.getElementById('typewriter');
+    const lines = [
+      "I design STM32 firmware and secure boot chains.",
+      "I build FPGA SoCs and RISC-V cores.",
+      "I prototype SDR systems and edge IoT PHYs.",
+      "I apply ML to security & real-world systems."
+    ];
+    let idx = 0, char = 0, forward = true;
+    function typeLoop() {
+      const cur = lines[idx];
+      if (forward) {
+        char++;
+        typeEl.textContent = cur.slice(0, char);
+        if (char === cur.length) { forward = false; setTimeout(typeLoop, 1400); return; }
+      } else {
+        char--;
+        typeEl.textContent = cur.slice(0, char);
+        if (char === 0) { forward = true; idx = (idx + 1) % lines.length; }
+      }
+      setTimeout(typeLoop, forward ? 40 : 20);
+    }
+    typeLoop();
+
+    /***********
+     * Mobile menu toggle
+     ***********/
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     menuBtn && menuBtn.addEventListener('click', () => {
-      const open = mobileMenu.classList.toggle('hidden') === false;
-      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      mobileMenu.classList.toggle('hidden');
     });
 
-    // Scroll-spy: highlight nav links when sections are in view
-    const navLinks = [...document.querySelectorAll('a.nav-link, header nav a.nav-link')];
+    /***********
+     * Scroll progress & scroll spy for nav
+     ***********/
+    const progress = document.getElementById('progress');
     const sections = [...document.querySelectorAll('main section[id]')];
-
+    const navLinks = [...document.querySelectorAll('.nav-link')];
+    function updateProgress() {
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (window.scrollY / (height || 1)) * 100;
+      progress.style.width = Math.min(100, Math.max(0, scrolled)) + '%';
+    }
     function onScrollSpy(){
-      const scrollPos = window.scrollY + (window.innerHeight * 0.25);
-      let current = sections[0];
+      const scrollPos = window.scrollY + (window.innerHeight * 0.28);
+      let current = sections[0] || null;
       for (const sec of sections){
         if (sec.offsetTop <= scrollPos) current = sec;
       }
-      // remove active from all
       document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
-      const activeLink = document.querySelector(`.nav-link[href="#${current.id}"]`);
-      if (activeLink) activeLink.classList.add('active');
+      if (current) {
+        const activeLink = document.querySelector(`.nav-link[href="#${current.id}"]`);
+        if (activeLink) activeLink.classList.add('active');
+      }
     }
-    onScrollSpy();
-    window.addEventListener('scroll', onScrollSpy);
-    window.addEventListener('resize', onScrollSpy);
+    window.addEventListener('scroll', () => { updateProgress(); onScrollSpy(); });
+    window.addEventListener('load', () => { updateProgress(); onScrollSpy(); });
 
-    // Simple project tilt micro interactions
-    document.querySelectorAll('.proj').forEach(card=>{
+    /***********
+     * Project modal (details)
+     ***********/
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const modalLinks = document.getElementById('modalLinks');
+    const modalTags = document.getElementById('modalTags');
+    document.querySelectorAll('[data-open]').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        const id = e.currentTarget.getAttribute('data-open');
+        openProjectModal(id);
+      });
+    });
+    function openProjectModal(id){
+      // basic modal content – expand as you like
+      let data = {
+        "fpga-sdr": {
+          title: "FPGA-Accelerated SDR — IoT PHY",
+          tags: "FPGA • SDR • HW–SW co-design",
+          text: `<p class="mb-2">Research & prototype for a lightweight SDR PHY that moves compute-heavy baseband tasks to FPGA fabric: filtering, synchronization, demodulation, and optional FEC.</p><ul class="list-disc list-inside text-sm"><li>HW–SW co-design with minimal resource usage</li><li>Target: low-power IoT devices & gateways</li><li>Validated in simulation and early FPGA builds</li></ul>`,
+          links: [{label:"Repo", url:"https://github.com/aerostorm19/Research-Proposal-FPGA-Accelerated-SDR-for-Low-Power-IoT-Communication"}]
+        },
+        "smart-glasses": {
+          title: "Smart Glasses for Visually Impaired",
+          tags: "ESP32 • OpenCV • Embedded",
+          text: `<p class="mb-2">Real-time object detection using ESP-CAM + ultrasonic sensors; provides audio navigation cues and remote telemetry via MQTT.</p><ul class="list-disc list-inside text-sm"><li>Edge AI with lightweight models</li><li>Ultrasonic obstacle avoidance</li><li>Low-latency audio feedback</li></ul>`,
+          links: [{label:"Repo", url:"https://github.com/aerostorm19/Smart-Glasses-for-Visually--Impaired"}]
+        },
+        "ml-waf": {
+          title: "ML-Based Web App Firewall",
+          tags: "Python • FastAPI • ML",
+          text: `<p class="mb-2">NLP-powered WAF that detects injection attempts and anomalous payloads, used for research & testbed deployments.</p><ul class="list-disc list-inside text-sm"><li>Low-latency model inference</li><li>Integrated with Scapy for inline interception</li><li>Validated with Burp Suite test cases</li></ul>`,
+          links: [{label:"Repo", url:"https://github.com/aerostorm19/ML-Based-Web-App-Firewall"}]
+        },
+        "sca": {
+          title: "AI Smart Contract Auditor",
+          tags: "TypeScript • LLM • Automation",
+          text: `<p class="mb-2">Automated auditing tool for smart contracts with prioritized fixes and a CLI/web experience. Uses LLMs for vulnerability detection and auto-suggested patches.</p>`,
+          links: [{label:"Repo", url:"https://github.com/aerostorm19/Smart-Contract-Auditor"}]
+        }
+      };
+      const d = data[id];
+      if (!d) return;
+      modalTitle.textContent = d.title;
+      modalBody.innerHTML = d.text;
+      modalTags.textContent = d.tags;
+      modalLinks.innerHTML = '';
+      d.links.forEach(l=>{
+        const a = document.createElement('a');
+        a.href = l.url; a.target = '_blank'; a.rel = 'noopener';
+        a.className = 'btn-accent';
+        a.textContent = l.label;
+        a.style.display = 'inline-flex';
+        a.style.marginRight = '0.5rem';
+        modalLinks.appendChild(a);
+      });
+      modalBackdrop.classList.remove('hidden');
+      modalBackdrop.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    }
+    document.getElementById('modalClose').addEventListener('click', ()=>{
+      modalBackdrop.classList.add('hidden');
+      modalBackdrop.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    });
+    modalBackdrop.addEventListener('click', (e)=>{
+      if (e.target === modalBackdrop) { modalBackdrop.classList.add('hidden'); document.body.style.overflow = ''; }
+    });
+
+    /***********
+     * Vault filtering
+     ***********/
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const vaultCards = document.querySelectorAll('#vaultGrid .vault-card');
+
+    filterBtns.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        filterBtns.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.getAttribute('data-filter');
+        vaultCards.forEach(card=>{
+          const tags = card.getAttribute('data-tags') || '';
+          if (f === 'all' || tags.includes(f)) {
+            card.style.display = 'block';
+          } else card.style.display = 'none';
+        });
+      });
+    });
+
+    /***********
+     * Project card tilt microinteraction
+     ***********/
+    document.querySelectorAll('.proj, .vault-card').forEach(card=>{
       card.addEventListener('mousemove', e=>{
         const rect = card.getBoundingClientRect();
         const x = (e.clientX - rect.left) / rect.width - 0.5;
         const y = (e.clientY - rect.top) / rect.height - 0.5;
-        card.style.transform = `perspective(800px) rotateX(${(-y*6)}deg) rotateY(${(x*6)}deg) translateZ(6px)`;
+        card.style.transform = `perspective(800px) rotateX(${(-y*4)}deg) rotateY(${(x*4)}deg) translateZ(6px)`;
       });
       card.addEventListener('mouseleave', ()=> card.style.transform = '');
     });
 
-    // Contact form placeholder - integrate EmailJS or Formspree here
-    document.getElementById('contactForm').addEventListener('submit', function(e){
-      e.preventDefault();
-      // Example EmailJS integration placeholder:
-      // emailjs.sendForm('service_id', 'template_id', this)
-      //   .then(() => alert('Message sent — thanks!'))
-      //   .catch(() => alert('Failed to send — try again later.'));
-      alert('Form submitted (placeholder). Add EmailJS code where indicated in this script.');
+    /***********
+     * Contact form (placeholder) — integrate EmailJS or Formspree here
+     ***********/
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  emailjs.sendForm('service_51opthp', 'template_d3vmhuj', this)
+    .then(() => {
+      alert('Message sent successfully!');
       this.reset();
+    })
+    .catch((error) => {
+      console.error('EmailJS error:', error);
+      alert('Failed to send message. Please try again later.');
+    });
+});
+
+
+
+
+    /***********
+     * small accessibility: make nav links smooth and keyboard friendly
+     ***********/
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', function(e){
+        const href = this.getAttribute('href');
+        if (href.length > 1) {
+          e.preventDefault();
+          document.querySelector(href).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
     });
 
-    // Progressive micro-animations for tech chips
-    document.querySelectorAll('.tech-chip').forEach((chip, i) => {
-      chip.style.transitionDelay = (i*40)+'ms';
-    });
+    // ensure initial scroll progress runs
+    updateProgress();
+    onScrollSpy();
+  </script>
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("34PrJAJNW3jZS1yX2"); // ← Your Public Key
+    })();
   </script>
 </body>
 </html>
